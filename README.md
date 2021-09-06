@@ -1,1 +1,1 @@
-Todo List Project using HTML / CSS / JS Classes and Webpack.
+The Odin Project "Todo List App" using HTML / CSS / JS Classes and Webpack.
