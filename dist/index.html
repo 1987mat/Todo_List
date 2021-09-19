@@ -10,10 +10,19 @@
     <div class="header">
       <h1>Todo List App</h1>
     </div>
-    <div class="sidebar"><nav>
+
+    <div class="sidebar">
+      <h2>Projects</h2>
+      <ul class="project-list" data-lists>
+      </ul>
       <button id="new-project-btn">+ New Project</button>
-    </nav></div>
+    </div>
     <div class="content">
+      <div class="preview-div">
+        <h2 class="project-title"></h2>
+        <div class="task-list"></div>
+        <button class="add-task-btn">+ Add Task</button>
+      </div>
     </div>
     <div class="footer">
       <span>Developed by Mat</span>
@@ -21,6 +30,14 @@
         <i class="fa fa-github"></i>
       </a>
     </div>
+  </div>
+
+  <!-- New Project Popup -->
+  <div class="add-project-popup">
+    <label for="project-name" class="name-label">Name</label>
+    <input id="project-name" type="text" data-new-input-list>
+    <button class="add-btn">Add</button>
+    <button class="cancel-btn">Cancel</button>
   </div>
 
   <script src="main.js"></script>

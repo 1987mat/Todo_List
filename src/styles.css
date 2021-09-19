@@ -32,6 +32,33 @@
   cursor: pointer;
 }
 
+.add-project-popup {
+  display: none;
+  border: 1px solid black;
+  position: relative;
+  left: 550px;
+  bottom: 400px;
+  height: 100px;
+  width: 180px;
+  padding: 20px;
+}
+
+.add-task-btn {
+  display: none;
+}
+
+.active {
+  display: block;
+}
+
+.active-list {
+  font-weight: 800;
+}
+
+.name-label, .description-label {
+  margin: 2rem;
+}
+
 .sidebar {
   border: 1px solid black;
   grid-area: sidebar;
@@ -42,11 +69,16 @@
   border: 1px solid black;
 }
 
+.single-task {
+  list-style-type: none;
+}
+
+.edit-btn, .delete-btn, .fa-github {
+  text-transform: none;
+  color: black;
+}
+
 .footer {
   grid-area: footer;
   border: 1px solid black;
-}
-
-.bi-github {
-  
 }
