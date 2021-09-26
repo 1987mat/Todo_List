@@ -16,12 +16,28 @@
       <ul class="project-list" data-lists>
       </ul>
       <button id="new-project-btn">+ New Project</button>
+      <div class="add-project-popup">
+        <label for="project-name" class="name-label">Name</label>
+        <input id="project-name" type="text" data-new-input-list>
+        <button class="add-btn">Add</button>
+        <button class="cancel-btn">Cancel</button>
+      </div>    
     </div>
     <div class="content">
-      <div class="preview-div">
-        <h2 class="project-title"></h2>
-        <div class="task-list"></div>
-        <button class="add-task-btn">+ Add Task</button>
+      <div class="todo-list-container" data-preview-container>
+        <h2 class="project-title-preview">Project Name</h2>
+        <div class="task-list" data-tasks-container>
+          <div class="task-div">
+            <input type="checkbox" name="task">
+            <span></span>
+          </div> 
+        </div>
+        <div class="container-buttons">
+          <a href="#" class="add-icon-link"><i class="fa fa-plus"></i></a>
+          <input type="text" name="task-input" id="task-input" placeholder="add new task">
+          <button class="delete-list-btn">Delete Project</button>
+          <button class="delete-task-btn">Delete Task</button>
+        </div>
       </div>
     </div>
     <div class="footer">
@@ -31,14 +47,14 @@
       </a>
     </div>
   </div>
-
-  <!-- New Project Popup -->
-  <div class="add-project-popup">
-    <label for="project-name" class="name-label">Name</label>
-    <input id="project-name" type="text" data-new-input-list>
-    <button class="add-btn">Add</button>
-    <button class="cancel-btn">Cancel</button>
-  </div>
+  <template id="task-template">
+    <div class="task-div">
+      <input type="checkbox">
+      <label>
+        <span class="custom-checkbox"></span>
+      </label>
+    </div>
+  </template>
 
   <script src="main.js"></script>
 </body>

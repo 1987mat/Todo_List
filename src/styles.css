@@ -34,21 +34,21 @@
 
 .add-project-popup {
   display: none;
-  border: 1px solid black;
-  position: relative;
-  left: 550px;
-  bottom: 400px;
   height: 100px;
-  width: 180px;
+  width: 250px;
   padding: 20px;
+  margin: 20px;
 }
 
-.add-task-btn {
-  display: none;
+#project-name {
+  width: 180px;
+  height: 30px;
 }
 
-.active {
-  display: block;
+.add-btn, .cancel-btn {
+  width: 80px;
+  height: 20px;
+
 }
 
 .active-list {
@@ -64,13 +64,52 @@
   grid-area: sidebar;
 }
 
+.project-name {
+  margin: 5px;
+}
+
+.project-name:hover {
+  cursor: pointer;
+}
+
 .content {
+  position: relative;
   grid-area: content;
   border: 1px solid black;
 }
 
-.single-task {
-  list-style-type: none;
+.todo-list-container {
+  display: none;
+  margin: 50px;
+  padding: 10px;
+  width: 500px;
+  height: 200px;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+.container-buttons {
+  margin-top: 10px;
+}
+
+.input-task {
+  display: block;
+}
+
+.single-task-label {
+  border-radius: 100%;
+}
+
+.add-icon-link {
+  text-transform: none;
+  color: blue;
+  margin: 10px;
+}
+
+#task-input {
+  border: none;
+  border-bottom: 1px solid blue;
+  margin: 5px;
 }
 
 .edit-btn, .delete-btn, .fa-github {
@@ -81,4 +120,8 @@
 .footer {
   grid-area: footer;
   border: 1px solid black;
+}
+
+.active {
+  display: block;
 }
