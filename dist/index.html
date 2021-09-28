@@ -12,20 +12,22 @@
     </div>
 
     <div class="sidebar">
-      <h2>Projects</h2>
+      <h2 class="project-sidebar-title">Projects</h2>
       <ul class="project-list" data-lists>
       </ul>
       <button id="new-project-btn">+ New Project</button>
       <div class="add-project-popup">
-        <label for="project-name" class="name-label">Name</label>
-        <input id="project-name" type="text" data-new-input-list>
-        <button class="add-btn">Add</button>
-        <button class="cancel-btn">Cancel</button>
+        <label for="project-name-input" class="name-label"></label>
+        <input id="project-name-input" type="text" maxlength="15" data-new-input-list>
+        <div class="project-buttons">
+          <button class="add-btn">Add</button>
+          <button class="cancel-btn">Cancel</button>
+        </div>
       </div>    
     </div>
     <div class="content">
       <div class="todo-list-container" data-preview-container>
-        <h2 class="project-title-preview">Project Name</h2>
+        <h2 class="project-title-preview"></h2>
         <div class="task-list" data-tasks-container>
           <div class="task-div">
             <input type="checkbox" name="task">
@@ -35,13 +37,14 @@
         <div class="container-buttons">
           <a href="#" class="add-icon-link"><i class="fa fa-plus"></i></a>
           <input type="text" name="task-input" id="task-input" placeholder="add new task">
-          <button class="delete-list-btn">Delete Project</button>
+          <button class="delete-project-btn">Delete Project</button>
+          <button class="edit-task-btn">Edit Task</button>
           <button class="delete-task-btn">Delete Task</button>
         </div>
       </div>
     </div>
     <div class="footer">
-      <span>Developed by Mat</span>
+      <span class="footer-span">Developed by Mat</span>
       <a href="https://github.com/1987mat" target="_blank">
         <i class="fa fa-github"></i>
       </a>

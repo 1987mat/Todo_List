@@ -13,20 +13,25 @@ const taskTemplate = document.querySelector('#task-template');
 const tasksContainer = document.querySelector('[data-tasks-container]');
 const newTaskInput = document.querySelector('#task-input');
 const addTaskBtn = document.querySelector('.add-icon-link');
-const deleteProjectBtn = document.querySelector('.delete-list-btn');
+const deleteProjectBtn = document.querySelector('.delete-project-btn');
 const deleteTaskBtn = document.querySelector('.delete-task-btn');
 
 // Create Local Storage keys
-const LOCAL_STORAGE_LIST_KEY = 'task.lists';
-const LOCAL_STORAGE_ID_KEY = 'task.selected.id';
+const LOCAL_STORAGE_LIST_KEY = 'project.lists';
+const LOCAL_STORAGE_ID_KEY = 'project.selected.id';
 
-// Get the values from Local Storage or have a default projectList array if LS is empty
-let projectList = JSON.parse(localStorage.getItem(LOCAL_STORAGE_LIST_KEY)) || [];
-
-// Get selected projects from LS
-let selectedListID = localStorage.getItem(LOCAL_STORAGE_ID_KEY);
-
+let projectList;
+let selectedProjectID = localStorage.getItem(LOCAL_STORAGE_ID_KEY);
 let selectedTaskID;
+
+window.onload = () => {
+  projectList = JSON.parse(localStorage.getItem(LOCAL_STORAGE_LIST_KEY)); 
+  if(projectList !== null) {
+    renderList();
+  } else {
+    projectList = [];
+  }
+}
 
 // EVENT LISTENERS
 newProjectBtn.addEventListener('click', () => {
@@ -49,7 +54,6 @@ function hidePopUp() {
 }
 
 addProjectBtn.addEventListener('click', () => {
-  
   let projectName = newInput.value;
   if(projectName == null || projectName === '') return;
 
@@ -59,7 +63,9 @@ addProjectBtn.addEventListener('click', () => {
   projectList.push(project);
   newProjectBtn.style.display = 'block';
   hidePopUp();
-  saveAndRender();
+  clearList(containerList);
+  save();
+  renderList();
 })
 
 addTaskBtn.addEventListener('click', () => {
@@ -69,22 +75,22 @@ addTaskBtn.addEventListener('click', () => {
   // Create the task object and push it to the array
   const task = CreateTask(taskName);
   newTaskInput.value = null;
-  let selectedProject = projectList.find(element => element.id === selectedListID);
+  let selectedProject = projectList.find(element => element.id === selectedProjectID);
   selectedProject.tasks.push(task);
   saveAndRender();
 })
 
 containerList.addEventListener('click', e => {
   if (e.target.tagName.toLowerCase() === 'li') {
-    // Add a unique data attribute ID to the li element and assign it to the selectedListID variable
-    selectedListID = e.target.dataset.listID;
+    // Add a unique data attribute ID to the li element and assign it to the selectedProjecttID variable
+    selectedProjectID = e.target.dataset.listID;
     saveAndRender();
   } 
 })
 
 deleteProjectBtn.addEventListener('click', () => {
-  projectList = projectList.filter(project => project.id !== selectedListID);
-  selectedListID = null;
+  projectList = projectList.filter(project => project.id !== selectedProjectID);
+  selectedProjectID = null;
   saveAndRender(); 
 })
 
@@ -96,7 +102,7 @@ tasksContainer.addEventListener('click', e => {
 
 deleteTaskBtn.addEventListener('click', () => {
   projectList.forEach(project => {
-    if(project.id === selectedListID) {
+    if(project.id === selectedProjectID) {
       let selectedTaskArray = project;
       project.tasks = selectedTaskArray.tasks.filter(task => task.id !== selectedTaskID);
       clearList(project);
@@ -129,10 +135,10 @@ function render() {
 
 function showPreview() {
   // If the ID of the selected project exists (data-attribute on li), find that element in the array
-  const selectedProject = projectList.find(element => element.id === selectedListID);
+  const selectedProject = projectList.find(element => element.id === selectedProjectID);
 
   // Hide or show the preview container on the main content
-  if (selectedListID === null) {
+  if (selectedProjectID === null) {
     previewContainer.style.display = 'none';
   } else {
     previewContainer.style.display = 'block';
@@ -150,7 +156,7 @@ function renderList() {
     listElement.dataset.listID = list.id;
     listElement.innerText = list.name;
 
-    if(list.id == selectedListID) {
+    if(list.id == selectedProjectID) {
       listElement.classList.add('active-list');
     }
     containerList.appendChild(listElement);
@@ -179,7 +185,7 @@ function clearList(element) {
 // LOCAL STORAGE
 function save() {
   localStorage.setItem(LOCAL_STORAGE_LIST_KEY, JSON.stringify(projectList));
-  localStorage.setItem(LOCAL_STORAGE_ID_KEY, selectedListID);
+  localStorage.setItem(LOCAL_STORAGE_ID_KEY, selectedProjectID);
 }
 
 function saveAndRender() {
