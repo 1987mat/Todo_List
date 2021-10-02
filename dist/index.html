@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Todo List</title>
@@ -12,16 +15,17 @@
     </div>
 
     <div class="sidebar">
-      <h2 class="project-sidebar-title">Projects</h2>
-      <ul class="project-list" data-lists>
-      </ul>
-      <button id="new-project-btn">+ New Project</button>
-      <div class="add-project-popup">
-        <label for="project-name-input" class="name-label"></label>
-        <input id="project-name-input" type="text" maxlength="15" data-new-input-list>
-        <div class="project-buttons">
-          <button class="add-btn">Add</button>
-          <button class="cancel-btn">Cancel</button>
+      <div class="sidebar-projects-div">
+        <h2 class="project-sidebar-title">Projects</h2>
+        <ul class="project-list" data-lists>
+        </ul>
+        <button id="new-project-btn">+ New Project</button>
+        <div class="add-project-popup">
+          <input id="project-name-input" type="text" maxlength="15" data-new-input-list>
+          <div class="project-buttons">
+            <button class="add-btn">Add</button>
+            <button class="cancel-btn">Cancel</button>
+          </div>
         </div>
       </div>    
     </div>
@@ -29,30 +33,28 @@
       <div class="todo-list-container" data-preview-container>
         <h2 class="project-title-preview"></h2>
         <div class="task-list" data-tasks-container>
-          <div class="task-div">
-            <input type="checkbox" name="task">
-            <span></span>
-          </div> 
         </div>
         <div class="container-buttons">
           <a href="#" class="add-icon-link"><i class="fa fa-plus"></i></a>
-          <input type="text" name="task-input" id="task-input" placeholder="add new task">
-          <button class="delete-project-btn">Delete Project</button>
-          <button class="edit-task-btn">Edit Task</button>
+          <input type="text" name="task-input" id="task-input" maxlength="15" placeholder="add new task">
           <button class="delete-task-btn">Delete Task</button>
+          <button class="edit-task-btn">Edit Task</button>
+          <button class="delete-project-btn">Delete Project</button>
         </div>
       </div>
     </div>
     <div class="footer">
-      <span class="footer-span">Developed by Mat</span>
-      <a href="https://github.com/1987mat" target="_blank">
-        <i class="fa fa-github"></i>
-      </a>
+      <div class="copyright-div">
+        <span class="footer-span">Developed by Mat</span>
+        <a href="https://github.com/1987mat" target="_blank">
+          <i class="fa fa-github"></i>
+        </a>
+      </div>
     </div>
   </div>
   <template id="task-template">
     <div class="task-div">
-      <input type="checkbox">
+      <input type="radio">
       <label>
         <span class="custom-checkbox"></span>
       </label>
@@ -60,5 +62,6 @@
   </template>
 
   <script src="main.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>

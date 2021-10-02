@@ -13,8 +13,9 @@ const taskTemplate = document.querySelector('#task-template');
 const tasksContainer = document.querySelector('[data-tasks-container]');
 const newTaskInput = document.querySelector('#task-input');
 const addTaskBtn = document.querySelector('.add-icon-link');
-const deleteProjectBtn = document.querySelector('.delete-project-btn');
+const editTaskBtn = document.querySelector('.edit-task-btn');
 const deleteTaskBtn = document.querySelector('.delete-task-btn');
+const deleteProjectBtn = document.querySelector('.delete-project-btn');
 
 // Create Local Storage keys
 const LOCAL_STORAGE_LIST_KEY = 'project.lists';
@@ -24,7 +25,7 @@ let projectList;
 let selectedProjectID = localStorage.getItem(LOCAL_STORAGE_ID_KEY);
 let selectedTaskID;
 
-window.onload = () => {
+window.onload = function getProjectList() {
   projectList = JSON.parse(localStorage.getItem(LOCAL_STORAGE_LIST_KEY)); 
   if(projectList !== null) {
     renderList();
@@ -34,12 +35,12 @@ window.onload = () => {
 }
 
 // EVENT LISTENERS
-newProjectBtn.addEventListener('click', () => {
+newProjectBtn.addEventListener('click', function clickNewProjectBtn() {
   showPopUp();
   newProjectBtn.style.display = 'none';
 })
 
-cancelBtn.addEventListener('click', function() {
+cancelBtn.addEventListener('click', function cancelProjectBtn() {
   hidePopUp();
   newInput.value = '';
   newProjectBtn.style.display = 'block';
@@ -53,7 +54,7 @@ function hidePopUp() {
   popUp.classList.remove('active');
 }
 
-addProjectBtn.addEventListener('click', () => {
+addProjectBtn.addEventListener('click', function addNewProject() {
   let projectName = newInput.value;
   if(projectName == null || projectName === '') return;
 
@@ -68,7 +69,7 @@ addProjectBtn.addEventListener('click', () => {
   renderList();
 })
 
-addTaskBtn.addEventListener('click', () => {
+addTaskBtn.addEventListener('click', function addNewTask() {
   let taskName = newTaskInput.value;
   if(taskName == null || taskName === '') return;
 
@@ -80,7 +81,8 @@ addTaskBtn.addEventListener('click', () => {
   saveAndRender();
 })
 
-containerList.addEventListener('click', e => {
+containerList.addEventListener('click', function selectProjectFromList(e) {
+  
   if (e.target.tagName.toLowerCase() === 'li') {
     // Add a unique data attribute ID to the li element and assign it to the selectedProjecttID variable
     selectedProjectID = e.target.dataset.listID;
@@ -88,27 +90,59 @@ containerList.addEventListener('click', e => {
   } 
 })
 
-deleteProjectBtn.addEventListener('click', () => {
-  projectList = projectList.filter(project => project.id !== selectedProjectID);
-  selectedProjectID = null;
-  saveAndRender(); 
+deleteProjectBtn.addEventListener('click', function deleteProjectFromList() {
+
+  Swal.fire({
+    title: 'Are you sure?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire(
+        'Deleted!',
+        'Your project has been deleted.',
+        'success'
+      )
+      projectList = projectList.filter(project => project.id !== selectedProjectID);
+      selectedProjectID = null;
+      saveAndRender(); 
+    }
+  })
 })
 
-tasksContainer.addEventListener('click', e => {
+tasksContainer.addEventListener('click', function getSelectedTaskID() {
   if(e.target.tagName.toLowerCase() === 'input') {
     selectedTaskID = e.target.id;
   }
 })
 
-deleteTaskBtn.addEventListener('click', () => {
+deleteTaskBtn.addEventListener('click', function deleteSingleTask() {
   projectList.forEach(project => {
     if(project.id === selectedProjectID) {
-      let selectedTaskArray = project;
-      project.tasks = selectedTaskArray.tasks.filter(task => task.id !== selectedTaskID);
-      clearList(project);
-      saveAndRender(project);
+      
+      Swal.fire({
+        title: 'Are you sure?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          project.tasks = project.tasks.filter(task => task.id !== selectedTaskID);
+          clearList(project);
+          saveAndRender(project);
+        }
+      })
     }   
   })
+})
+
+editTaskBtn.addEventListener('click', function editTask() {
+  alert('edit task')
 })
 
 // FUNCTIONS
@@ -120,10 +154,11 @@ function CreateProject(name) {
   }
 }
 
-function CreateTask(name) {
+function CreateTask(name, dueDate) {
   return {
     id: Date.now().toString(),
-    name: name
+    name: name,
+    dueDate: dueDate
   }
 }
 
@@ -133,18 +168,9 @@ function render() {
   showPreview();
 }
 
-function showPreview() {
-  // If the ID of the selected project exists (data-attribute on li), find that element in the array
-  const selectedProject = projectList.find(element => element.id === selectedProjectID);
-
-  // Hide or show the preview container on the main content
-  if (selectedProjectID === null) {
-    previewContainer.style.display = 'none';
-  } else {
-    previewContainer.style.display = 'block';
-    projectTitlePreview.innerText = selectedProject.name;
-    clearList(tasksContainer);
-    renderTasks(selectedProject);
+function clearList(element) {
+  while (element.firstChild) {
+    element.removeChild(element.firstChild);
   }
 }
 
@@ -166,8 +192,10 @@ function renderList() {
 function renderTasks(selectedProject) {
   selectedProject.tasks.forEach(task => {
     const taskElement = document.importNode(taskTemplate.content, true);
-    const checkbox = taskElement.querySelector('input');
-    checkbox.id = task.id;
+    const radio = taskElement.querySelector('input');
+    radio.id = task.id;
+    radio.name = 'check';
+  
     const label = taskElement.querySelector('label');
     label.htmlFor = task.id;
     label.classList.add('single-task-label');
@@ -176,9 +204,19 @@ function renderTasks(selectedProject) {
   })
 }
 
-function clearList(element) {
-  while (element.firstChild) {
-    element.removeChild(element.firstChild);
+
+function showPreview() {
+  // If the ID of the selected project exists (data-attribute on li), find that element in the array
+  let selectedProject = projectList.find(element => element.id === selectedProjectID);
+
+  // Hide or show the preview container on the main content
+  if (selectedProjectID === null) {
+    previewContainer.style.display = 'none';
+  } else {
+    previewContainer.style.display = 'block';
+    projectTitlePreview.innerText = selectedProject.name;
+    clearList(tasksContainer);
+    renderTasks(selectedProject);
   }
 }
 

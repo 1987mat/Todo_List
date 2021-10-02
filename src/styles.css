@@ -2,6 +2,7 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  font-family: 'Comfortaa', cursive;
 }
 
 .wrapper {
@@ -19,10 +20,15 @@
 .header {
   grid-area: header;
   border: 1px solid black;
+  background-color: #696969;
 }
 
 h1 {
   padding: 10px;
+  font-size: 3rem;
+  margin: 20px 20px;
+  text-align: center;
+  color: #F8F8FF;
 }
 
 .project-sidebar-title {
@@ -32,39 +38,43 @@ h1 {
 
 #new-project-btn {
   font-weight: 800;
-  font-size: 15px;
+  font-size: 1rem;
   position: relative;
   top: 20px;
-  left: 20px;
-  height: 2.5rem;
-  width: 7.5rem;
-  border-radius: 10px 10px;
+  left: 20%;
+  height: 4rem;
+  width: 9rem;
+  border-radius: 10px;
 }
 
 #new-project-btn:hover {
   cursor: pointer;
-  background: lightslategray;
+  background: #FFFFFF;
 }
 
 .add-project-popup {
   display: none;
+  position: relative;
+  left: 10%;
   height: 100px;
   width: 250px;
   padding: 20px;
-  margin: 20px;
 }
 
 #project-name-input {
-  padding: 2px;
-  width: 180px;
+  box-sizing: content-box;
+  padding: 5px;
+  width: 155px;
   height: 30px;
 }
 
 .project-buttons {
+  display: flex;
+  flex-direction: row;
 }
 
 .add-btn, .cancel-btn {
-  width: 50%;
+  width: 40%;
   height: 30px;
 }
 
@@ -75,33 +85,42 @@ h1 {
 .sidebar {
   border: 1px solid black;
   grid-area: sidebar;
+  background-color: #F8F8FF;
+}
+
+.sidebar-projects-div {
+  height: 80%;
+  margin-top: 15px;
+  margin-left: 15px;  
 }
 
 .project-name {
-  border-radius: 1px;
-  width: 100%;
+  list-style-type: none;
+  width: 90%;
   padding: 10px;
 }
 
 .project-name:hover {
   cursor: pointer;
-  background: lightblue;
+  background: #DCDCDC;
+  border-radius: 5px;
 }
 
 .content {
-  position: relative;
   grid-area: content;
+  background-color: #F5F5F5;
   border: 1px solid black;
+  overflow: hidden;
+  overflow-y: scroll;
 }
 
 .todo-list-container {
   display: none;
-  margin: 50px;
+  position: relative;
+  top: 20px;
+  left: 50px;
   padding: 10px;
-  width: 500px;
-  height: 200px;
-  border: 1px solid black;
-  border-radius: 10px;
+  width: 80%;
 }
 
 .container-buttons {
@@ -112,13 +131,9 @@ h1 {
   display: block;
 }
 
-.single-task-label {
-  border-radius: 100%;
-}
-
 .add-icon-link {
   text-transform: none;
-  color: blue;
+  color: #191970;
   margin: 10px;
 }
 
@@ -133,39 +148,85 @@ h1 {
 
 .task-div {
   padding: 5px;
+  margin: 5px;
+  width: 100%;
+  height: 30px;
+}
+
+.task-div:hover {
+  cursor: pointer;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+#date-input {
+  display: none;
+}
+
+.date-span {
+  float: right;
 }
 
 #task-input {
   border: none;
   border-bottom: 1px solid blue;
-  margin: 5px;
-  padding: 2px;
+  background-color: #F5F5F5;
 }
 
 #task-input:focus {
   outline: none;
 }
 
-.delete-project-btn, .delete-task-btn, .edit-task-btn {
+.task-list-name {
+  display: inline;
+  list-style-type: none;
+  border: none;
+  background-color: #F5F5F5;
+  font-size: 1rem;
+}
+
+.delete-project-btn {
+  position: relative;
+  top: 60px;
+  right: 380px;
+  height: 40px;
+  width: 150px;
+  border-radius: 5px;
+  font-size: 1rem;
   padding: 2px;
 }
 
-.delete-project-btn, .delete-task-btn, .edit-task-btn:hover {
+.delete-task-btn, .edit-task-btn {
+  padding: 2px;
+  height: 30px;
+  border-radius: 5px;
+  width: 90px;
+}
+
+.delete-project-btn:hover, .delete-task-btn:hover, .edit-task-btn:hover {
   cursor: pointer;
+  background: #FFFFFF;
 }
 
 .fa-github {
   text-transform: none;
-  color: black;
+  font-size: 25px;
+  color: #F8F8FF;
+}
+
+.copyright-div {
+  margin: 5px 10px;
+  text-align: center;
 }
 
 .footer-span {
-  padding: 5px;
+  color: #F8F8FF;
 }
 
 .footer {
   grid-area: footer;
   border: 1px solid black;
+  background-color: #696969;
 }
 
 .active {
