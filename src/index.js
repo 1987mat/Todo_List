@@ -7,14 +7,18 @@ const addProjectBtn = document.querySelector('.add-btn');
 const cancelBtn = document.querySelector('.cancel-btn');
 const containerList = document.querySelector('[data-lists]');
 const newInput = document.querySelector('[data-new-input-list]');
+const wrapperDiv = document.querySelector('.wrapper');
 const previewContainer = document.querySelector('.todo-list-container');
 const projectTitlePreview = document.querySelector('.project-title-preview');
 const taskTemplate = document.querySelector('#task-template');
 const tasksContainer = document.querySelector('[data-tasks-container]');
-const newTaskInput = document.querySelector('#task-input');
-const addTaskBtn = document.querySelector('.add-icon-link');
-const editTaskBtn = document.querySelector('.edit-task-btn');
-const deleteTaskBtn = document.querySelector('.delete-task-btn');
+const taskPopup = document.querySelector('.task-popup');
+const taskNameInput = document.querySelector('#task-name-input');
+// const taskDateInput = document.querySelector('#task-date-input');
+const taskDescriptionInput = document.querySelector('#task-description');
+const addTaskBtnPopUp = document.querySelector('.add-task-btn');
+const saveTaskBtn = document.querySelector('.save-task-btn');
+const cancelTaskBtn = document.querySelector('.cancel-task-btn');
 const deleteProjectBtn = document.querySelector('.delete-project-btn');
 
 // Create Local Storage keys
@@ -25,14 +29,45 @@ let projectList;
 let selectedProjectID = localStorage.getItem(LOCAL_STORAGE_ID_KEY);
 let selectedTaskID;
 
-window.onload = function getProjectList() {
+document.addEventListener('DOMContentLoaded', function getProjectList() {
   projectList = JSON.parse(localStorage.getItem(LOCAL_STORAGE_LIST_KEY)); 
   if(projectList !== null) {
     renderList();
   } else {
-    projectList = [];
+    projectList = [
+      {
+       id: Date.now().toString(),
+       name: 'Example', 
+       tasks: [
+         {id: Date.now().toString(), name: 'Homework'},
+         {id: Date.now().toString(), name:'Car Wash'},
+         {id: Date.now().toString(), name: 'House Cleaning'}
+       ]
+      }
+    ];
+    renderList();
   }
-}
+})
+
+// window.onload = function getProjectList() {
+//   projectList = JSON.parse(localStorage.getItem(LOCAL_STORAGE_LIST_KEY)); 
+//   if(projectList !== null) {
+//     renderList();
+//   } else {
+//     projectList = [
+//       {
+//        id: Date.now().toString(),
+//        name: 'Example', 
+//        tasks: [
+//          {id: Date.now().toString(), name: 'Homework'},
+//          {id: Date.now().toString(), name:'Car Wash'},
+//          {id: Date.now().toString(), name: 'House Cleaning'}
+//        ]
+//       }
+//     ];
+//     renderList();
+//   }
+// }
 
 // EVENT LISTENERS
 newProjectBtn.addEventListener('click', function clickNewProjectBtn() {
@@ -46,19 +81,11 @@ cancelBtn.addEventListener('click', function cancelProjectBtn() {
   newProjectBtn.style.display = 'block';
 })
 
-function showPopUp() {
-  popUp.classList.add('active');
-}
-
-function hidePopUp() {
-  popUp.classList.remove('active');
-}
-
 addProjectBtn.addEventListener('click', function addNewProject() {
   let projectName = newInput.value;
   if(projectName == null || projectName === '') return;
 
-  // Create the project object and push it to the list array
+  // Create the project object and push it to the project list array
   const project = CreateProject(projectName);
   newInput.value = null;
   projectList.push(project);
@@ -69,22 +96,34 @@ addProjectBtn.addEventListener('click', function addNewProject() {
   renderList();
 })
 
-addTaskBtn.addEventListener('click', function addNewTask() {
-  let taskName = newTaskInput.value;
-  if(taskName == null || taskName === '') return;
+addTaskBtnPopUp.addEventListener('click', function addNewTaskPopUp() {
+  taskPopup.classList.remove('hidden');
+  wrapperDiv.classList.add('inactive');
+})
 
-  // Create the task object and push it to the array
-  const task = CreateTask(taskName);
-  newTaskInput.value = null;
-  let selectedProject = projectList.find(element => element.id === selectedProjectID);
+saveTaskBtn.addEventListener('click', function getTaskInfo() {
+  let taskName = taskNameInput.value;
+  let taskDescription = taskDescriptionInput.value;
+
+  if(taskName === null || taskName === '') return;
+  
+  const task = CreateTask(taskName, taskDescription);
+  taskNameInput.value = null;
+  taskPopup.classList.add('hidden');
+  wrapperDiv.classList.remove('inactive');
+  let selectedProject = projectList.find(item => item.id === selectedProjectID);
   selectedProject.tasks.push(task);
   saveAndRender();
+})
+
+cancelTaskBtn.addEventListener('click', function cancelTaskButton() {
+  taskPopup.classList.add('hidden');
+  wrapperDiv.classList.remove('inactive');
 })
 
 containerList.addEventListener('click', function selectProjectFromList(e) {
   
   if (e.target.tagName.toLowerCase() === 'li') {
-    // Add a unique data attribute ID to the li element and assign it to the selectedProjecttID variable
     selectedProjectID = e.target.dataset.listID;
     saveAndRender();
   } 
@@ -113,36 +152,32 @@ deleteProjectBtn.addEventListener('click', function deleteProjectFromList() {
   })
 })
 
-tasksContainer.addEventListener('click', function getSelectedTaskID() {
-  if(e.target.tagName.toLowerCase() === 'input') {
-    selectedTaskID = e.target.id;
+tasksContainer.addEventListener('click', function deleteSingleTask(e) {
+  
+  // Get Task ID
+  if(e.target.className === 'fa fa-trash') {
+
+    selectedTaskID = e.target.parentElement.parentElement.previousElementSibling.htmlFor;
+    projectList.forEach(project => {
+      if(project.id === selectedProjectID) {
+
+        Swal.fire({
+          title: 'Are you sure?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+
+          if (result.isConfirmed) {
+            project.tasks = project.tasks.filter(task => task.id !== selectedTaskID);
+            saveAndRender(); 
+          }
+        })
+      }
+    })
   }
-})
-
-deleteTaskBtn.addEventListener('click', function deleteSingleTask() {
-  projectList.forEach(project => {
-    if(project.id === selectedProjectID) {
-      
-      Swal.fire({
-        title: 'Are you sure?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          project.tasks = project.tasks.filter(task => task.id !== selectedTaskID);
-          clearList(project);
-          saveAndRender(project);
-        }
-      })
-    }   
-  })
-})
-
-editTaskBtn.addEventListener('click', function editTask() {
-  alert('edit task')
 })
 
 // FUNCTIONS
@@ -154,11 +189,11 @@ function CreateProject(name) {
   }
 }
 
-function CreateTask(name, dueDate) {
+function CreateTask(name, description) {
   return {
     id: Date.now().toString(),
     name: name,
-    dueDate: dueDate
+    description: description,
   }
 }
 
@@ -192,10 +227,9 @@ function renderList() {
 function renderTasks(selectedProject) {
   selectedProject.tasks.forEach(task => {
     const taskElement = document.importNode(taskTemplate.content, true);
-    const radio = taskElement.querySelector('input');
-    radio.id = task.id;
-    radio.name = 'check';
-  
+    const input = taskElement.querySelector('input');
+    input.id = task.id;
+    input.value = task.name;
     const label = taskElement.querySelector('label');
     label.htmlFor = task.id;
     label.classList.add('single-task-label');
@@ -203,7 +237,6 @@ function renderTasks(selectedProject) {
     tasksContainer.appendChild(taskElement);
   })
 }
-
 
 function showPreview() {
   // If the ID of the selected project exists (data-attribute on li), find that element in the array
@@ -229,4 +262,12 @@ function save() {
 function saveAndRender() {
   save();
   render();
+}
+
+function showPopUp() {
+  popUp.classList.add('active');
+}
+
+function hidePopUp() {
+  popUp.classList.remove('active');
 }

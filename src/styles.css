@@ -17,6 +17,11 @@
   height: 100vh;
 }
 
+.inactive {
+  pointer-events: none;
+  filter: blur(2px);
+}
+
 .header {
   grid-area: header;
   border: 1px solid black;
@@ -40,7 +45,7 @@ h1 {
   font-weight: 800;
   font-size: 1rem;
   position: relative;
-  top: 20px;
+  top: 25px;
   left: 20%;
   height: 4rem;
   width: 9rem;
@@ -56,6 +61,7 @@ h1 {
   display: none;
   position: relative;
   left: 10%;
+  top: 30px;
   height: 100px;
   width: 250px;
   padding: 20px;
@@ -63,23 +69,29 @@ h1 {
 
 #project-name-input {
   box-sizing: content-box;
+  border-radius: 2px;
   padding: 5px;
-  width: 155px;
+  width: 170px;
   height: 30px;
+  font-size: 1rem;
 }
 
 .project-buttons {
   display: flex;
   flex-direction: row;
+  border-radius: 2px;
 }
 
 .add-btn, .cancel-btn {
-  width: 40%;
-  height: 30px;
+  width: 92px;
+  height: 35px;
+  font-size: 1rem;
+  font-weight: 900;
 }
 
 .active-list {
-  font-weight: 800;
+  font-weight: bolder;
+  background-color: #DCDCDC;
 }
 
 .sidebar {
@@ -116,11 +128,57 @@ h1 {
 
 .todo-list-container {
   display: none;
+  border: 1px solid black;
+  border-radius: 5px;
   position: relative;
   top: 20px;
   left: 50px;
   padding: 10px;
+  margin-bottom: 60px;
   width: 80%;
+  box-shadow: 5px 5px 5px black;
+}
+
+.task-popup {
+  position: relative;
+  bottom: 470px;
+  left: 500px;
+  background-color: #D3D3D3;
+  border: 1px solid black;
+  box-shadow: 2px 2px 2px black;
+  width: 300px;
+  height: 400px;
+  display: block;
+  border-radius: 5px;
+  padding: 30px;
+}
+
+.input-fields {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-fields input, textarea {
+  margin: 15px;
+  padding: 5px;
+}
+
+.input-fields label {
+  font-weight: 800
+}
+
+.task-popup button {
+  position: relative;
+  left: 22px;
+  width: 40%;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 5px;
+  font-weight: 700;
+}
+
+.hidden {
+  display: none;
 }
 
 .container-buttons {
@@ -129,17 +187,6 @@ h1 {
 
 .input-task {
   display: block;
-}
-
-.add-icon-link {
-  text-transform: none;
-  color: #191970;
-  margin: 10px;
-}
-
-.add-icon-link:hover {
-  position: relative;
-  top: 1px;
 }
 
 .project-title-preview {
@@ -155,16 +202,31 @@ h1 {
 
 .task-div:hover {
   cursor: pointer;
-  border: 1px solid black;
   border-radius: 5px;
+  background-color: #DCDCDC;
 }
 
-#date-input {
-  display: none;
+.task-name{
+  padding: 2px;
+  background-color: #F5F5F5;
+  background: transparent;
+  border: none;
 }
 
-.date-span {
+.task-name:hover {
+  cursor: pointer;
+  background-color: #DCDCDC;
+}
+
+.remove-task-link {
+  text-decoration: none;
+  color: black;
+}
+
+.util-div {
   float: right;
+  position: relative;
+  top: -2px;
 }
 
 #task-input {
@@ -186,26 +248,34 @@ h1 {
 }
 
 .delete-project-btn {
-  position: relative;
-  top: 60px;
-  right: 380px;
+  float: right;
   height: 40px;
   width: 150px;
+  border-bottom: 3px solid black;
   border-radius: 5px;
   font-size: 1rem;
   padding: 2px;
+  margin: 10px;
 }
 
-.delete-task-btn, .edit-task-btn {
+.add-task-btn {
   padding: 2px;
   height: 30px;
   border-radius: 5px;
-  width: 90px;
+  width: 100px;
 }
 
-.delete-project-btn:hover, .delete-task-btn:hover, .edit-task-btn:hover {
+.delete-project-btn:hover, 
+.add-task-btn:hover, 
+.save-task-btn:hover, 
+.cancel-task-btn:hover {
   cursor: pointer;
   background: #FFFFFF;
+}
+
+.remove-task-btn:hover,
+.edit-task-btn:hover {
+  cursor: pointer;
 }
 
 .fa-github {

@@ -13,7 +13,6 @@
     <div class="header">
       <h1>Todo List App</h1>
     </div>
-
     <div class="sidebar">
       <div class="sidebar-projects-div">
         <h2 class="project-sidebar-title">Projects</h2>
@@ -35,10 +34,7 @@
         <div class="task-list" data-tasks-container>
         </div>
         <div class="container-buttons">
-          <a href="#" class="add-icon-link"><i class="fa fa-plus"></i></a>
-          <input type="text" name="task-input" id="task-input" maxlength="15" placeholder="add new task">
-          <button class="delete-task-btn">Delete Task</button>
-          <button class="edit-task-btn">Edit Task</button>
+          <button class="add-task-btn">+ New Task</button>
           <button class="delete-project-btn">Delete Project</button>
         </div>
       </div>
@@ -52,12 +48,31 @@
       </div>
     </div>
   </div>
+  <!-- HIDDEN TASK POPUP -->
+  <div class='task-popup hidden'>
+    <div class="input-fields">
+      <label for="task-name-input">Name</label>
+      <input type="text" id="task-name-input" maxlength="10" name="task-name-input">
+      <label for="tas k-date-input">Due Date</label>
+      <input type="date" id="task-date-input">
+      <label for="task-text" class="description-label">Description</label>
+      <textarea name="description" id="task-description" cols="32" rows="5" maxlength="40"></textarea>
+    </div>
+    <button class="save-task-btn">SAVE</button>
+    <button class="cancel-task-btn">CANCEL</button>
+  </div>
+  <!-- TASK TEMPLATE -->
   <template id="task-template">
     <div class="task-div">
-      <input type="radio">
+      <input type="checkbox" name="task-name"> 
       <label>
         <span class="custom-checkbox"></span>
       </label>
+      <div class="util-div">
+        <input type="date" id="date-input" name="date-input">
+        <button class="edit-task-btn"><i class="fa fa-edit"></i></button>
+        <button class="remove-task-btn"><i class="fa fa-trash"></i></button>
+      </div>
     </div>
   </template>
 
