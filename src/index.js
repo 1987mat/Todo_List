@@ -14,8 +14,7 @@ const taskTemplate = document.querySelector('#task-template');
 const tasksContainer = document.querySelector('[data-tasks-container]');
 const taskPopup = document.querySelector('.task-popup');
 const taskNameInput = document.querySelector('#task-name-input');
-// const taskDateInput = document.querySelector('#task-date-input');
-const taskDescriptionInput = document.querySelector('#task-description');
+const taskDateInput = document.querySelector('#task-date-input');
 const addTaskBtnPopUp = document.querySelector('.add-task-btn');
 const saveTaskBtn = document.querySelector('.save-task-btn');
 const cancelTaskBtn = document.querySelector('.cancel-task-btn');
@@ -25,49 +24,26 @@ const deleteProjectBtn = document.querySelector('.delete-project-btn');
 const LOCAL_STORAGE_LIST_KEY = 'project.lists';
 const LOCAL_STORAGE_ID_KEY = 'project.selected.id';
 
-let projectList;
 let selectedProjectID = localStorage.getItem(LOCAL_STORAGE_ID_KEY);
 let selectedTaskID;
 
+let projectList = [
+  {
+   id: Date.now().toString(),
+   name: 'Example', 
+   tasks: [
+     {id: Date.now().toString(), name: 'Homework'},
+     {id: Date.now().toString(), name:'Car Wash'},
+     {id: Date.now().toString(), name: 'House Cleaning'}
+   ]
+  }
+];
+
 document.addEventListener('DOMContentLoaded', function getProjectList() {
   projectList = JSON.parse(localStorage.getItem(LOCAL_STORAGE_LIST_KEY)); 
-  if(projectList !== null) {
-    renderList();
-  } else {
-    projectList = [
-      {
-       id: Date.now().toString(),
-       name: 'Example', 
-       tasks: [
-         {id: Date.now().toString(), name: 'Homework'},
-         {id: Date.now().toString(), name:'Car Wash'},
-         {id: Date.now().toString(), name: 'House Cleaning'}
-       ]
-      }
-    ];
-    renderList();
-  }
+  save();
+  renderList();
 })
-
-// window.onload = function getProjectList() {
-//   projectList = JSON.parse(localStorage.getItem(LOCAL_STORAGE_LIST_KEY)); 
-//   if(projectList !== null) {
-//     renderList();
-//   } else {
-//     projectList = [
-//       {
-//        id: Date.now().toString(),
-//        name: 'Example', 
-//        tasks: [
-//          {id: Date.now().toString(), name: 'Homework'},
-//          {id: Date.now().toString(), name:'Car Wash'},
-//          {id: Date.now().toString(), name: 'House Cleaning'}
-//        ]
-//       }
-//     ];
-//     renderList();
-//   }
-// }
 
 // EVENT LISTENERS
 newProjectBtn.addEventListener('click', function clickNewProjectBtn() {
@@ -96,18 +72,20 @@ addProjectBtn.addEventListener('click', function addNewProject() {
   renderList();
 })
 
-addTaskBtnPopUp.addEventListener('click', function addNewTaskPopUp() {
+addTaskBtnPopUp.addEventListener('click', function openTaskPopUp() {
   taskPopup.classList.remove('hidden');
   wrapperDiv.classList.add('inactive');
+  taskNameInput.value = null;
+  taskDateInput.value = null;
 })
 
 saveTaskBtn.addEventListener('click', function getTaskInfo() {
   let taskName = taskNameInput.value;
-  let taskDescription = taskDescriptionInput.value;
+  let taskDate = taskDateInput.value;
 
   if(taskName === null || taskName === '') return;
-  
-  const task = CreateTask(taskName, taskDescription);
+
+  const task = CreateTask(taskName, taskDate);
   taskNameInput.value = null;
   taskPopup.classList.add('hidden');
   wrapperDiv.classList.remove('inactive');
@@ -152,12 +130,12 @@ deleteProjectBtn.addEventListener('click', function deleteProjectFromList() {
   })
 })
 
-tasksContainer.addEventListener('click', function deleteSingleTask(e) {
+tasksContainer.addEventListener('click', function(e) {
   
-  // Get Task ID
+  // Delete single task
   if(e.target.className === 'fa fa-trash') {
 
-    selectedTaskID = e.target.parentElement.parentElement.previousElementSibling.htmlFor;
+    selectedTaskID = e.target.parentElement.parentElement.previousElementSibling.id;
     projectList.forEach(project => {
       if(project.id === selectedProjectID) {
 
@@ -177,6 +155,9 @@ tasksContainer.addEventListener('click', function deleteSingleTask(e) {
         })
       }
     })
+    // Edit single task
+  } else if(e.target.className === 'fa fa-edit') {
+    alert('edit')
   }
 })
 
@@ -189,11 +170,11 @@ function CreateProject(name) {
   }
 }
 
-function CreateTask(name, description) {
+function CreateTask(name, dueDate) {
   return {
     id: Date.now().toString(),
     name: name,
-    description: description,
+    dueDate: dueDate
   }
 }
 
@@ -230,10 +211,13 @@ function renderTasks(selectedProject) {
     const input = taskElement.querySelector('input');
     input.id = task.id;
     input.value = task.name;
-    const label = taskElement.querySelector('label');
-    label.htmlFor = task.id;
-    label.classList.add('single-task-label');
-    label.append(task.name);
+    input.class = 'task-name-text';
+    // const label = taskElement.querySelector('label');
+    // label.htmlFor = task.id;
+    // label.classList.add('single-task-label');
+    // label.append(task.name);
+    const dateInput = taskElement.querySelector('#date-input');
+    dateInput.value = task.dueDate;
     tasksContainer.appendChild(taskElement);
   })
 }

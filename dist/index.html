@@ -55,8 +55,6 @@
       <input type="text" id="task-name-input" maxlength="10" name="task-name-input">
       <label for="tas k-date-input">Due Date</label>
       <input type="date" id="task-date-input">
-      <label for="task-text" class="description-label">Description</label>
-      <textarea name="description" id="task-description" cols="32" rows="5" maxlength="40"></textarea>
     </div>
     <button class="save-task-btn">SAVE</button>
     <button class="cancel-task-btn">CANCEL</button>
@@ -64,10 +62,10 @@
   <!-- TASK TEMPLATE -->
   <template id="task-template">
     <div class="task-div">
-      <input type="checkbox" name="task-name"> 
-      <label>
-        <span class="custom-checkbox"></span>
-      </label>
+      <input type="text" name="task-name"> 
+      <!-- <label>
+        <span class="custom-text"></span>
+      </label> -->
       <div class="util-div">
         <input type="date" id="date-input" name="date-input">
         <button class="edit-task-btn"><i class="fa fa-edit"></i></button>
