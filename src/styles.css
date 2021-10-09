@@ -229,6 +229,19 @@ h1 {
   background-color: #DCDCDC;
 }
 
+.edit-btn-confirm {
+  display: none;
+}
+
+.fa-check-circle {
+  font-size: 1rem;
+  color: green;
+}
+
+.fa-check-circle:hover {
+  cursor: pointer;
+}
+
 .remove-task-link {
   text-decoration: none;
   color: black;

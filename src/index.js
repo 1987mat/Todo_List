@@ -24,28 +24,22 @@ const deleteProjectBtn = document.querySelector('.delete-project-btn');
 const LOCAL_STORAGE_LIST_KEY = 'project.lists';
 const LOCAL_STORAGE_ID_KEY = 'project.selected.id';
 
-let selectedProjectID = localStorage.getItem(LOCAL_STORAGE_ID_KEY);
-let selectedTaskID;
-
-let projectList = [
-  {
-   id: Date.now().toString(),
-   name: 'Example', 
-   tasks: [
-     {id: Date.now().toString(), name: 'Homework'},
-     {id: Date.now().toString(), name:'Car Wash'},
-     {id: Date.now().toString(), name: 'House Cleaning'}
-   ]
-  }
-];
-
-document.addEventListener('DOMContentLoaded', function getProjectList() {
-  projectList = JSON.parse(localStorage.getItem(LOCAL_STORAGE_LIST_KEY)); 
-  save();
-  renderList();
-})
+let projectList,
+    selectedProjectID = localStorage.getItem(LOCAL_STORAGE_ID_KEY),
+    selectedTaskID;
 
 // EVENT LISTENERS
+document.addEventListener('DOMContentLoaded', function getProjectList() {
+  projectList = JSON.parse(localStorage.getItem(LOCAL_STORAGE_LIST_KEY));
+
+  if(projectList !== null) {
+    save();
+    renderList();
+  } else {
+    projectList = [];
+  }
+})
+
 newProjectBtn.addEventListener('click', function clickNewProjectBtn() {
   showPopUp();
   newProjectBtn.style.display = 'none';
@@ -100,7 +94,6 @@ cancelTaskBtn.addEventListener('click', function cancelTaskButton() {
 })
 
 containerList.addEventListener('click', function selectProjectFromList(e) {
-  
   if (e.target.tagName.toLowerCase() === 'li') {
     selectedProjectID = e.target.dataset.listID;
     saveAndRender();
@@ -108,7 +101,6 @@ containerList.addEventListener('click', function selectProjectFromList(e) {
 })
 
 deleteProjectBtn.addEventListener('click', function deleteProjectFromList() {
-
   Swal.fire({
     title: 'Are you sure?',
     icon: 'warning',
@@ -131,7 +123,6 @@ deleteProjectBtn.addEventListener('click', function deleteProjectFromList() {
 })
 
 tasksContainer.addEventListener('click', function(e) {
-  
   // Delete single task
   if(e.target.className === 'fa fa-trash') {
 
@@ -155,11 +146,41 @@ tasksContainer.addEventListener('click', function(e) {
         })
       }
     })
-    // Edit single task
-  } else if(e.target.className === 'fa fa-edit') {
-    alert('edit')
+  }
+
+  if(e.target.name === 'task-name') {
+    
+    let editButtonConfirm;
+
+    for(let i = 0; i < e.target.parentElement.childElementCount; i++) {
+
+      if(e.target.parentElement.children[i].className === 'edit-btn-confirm') {
+        editButtonConfirm = e.target.parentElement.children[i];
+
+        e.target.keyup = setTimeout(function() {
+          editButtonConfirm.style.display = 'inline';
+        }, 3000);
+      }
+    }
+
+    let oldTaskName = e.target.value;
+
+    editButtonConfirm.onclick = function() {
+      
+      // editButtonConfirm.style.display = 'none';
+      let selectedProject = projectList.find(item => item.id === selectedProjectID);
+      let newTaskName = e.target.value;
+      // Swap new task title with old on
+      selectedProject.tasks.forEach(item => {
+        if(item.name === oldTaskName) {
+          item.name = newTaskName;
+          saveAndRender();
+        }
+      })
+    }
   }
 })
+
 
 // FUNCTIONS
 function CreateProject(name) {
@@ -212,10 +233,6 @@ function renderTasks(selectedProject) {
     input.id = task.id;
     input.value = task.name;
     input.class = 'task-name-text';
-    // const label = taskElement.querySelector('label');
-    // label.htmlFor = task.id;
-    // label.classList.add('single-task-label');
-    // label.append(task.name);
     const dateInput = taskElement.querySelector('#date-input');
     dateInput.value = task.dueDate;
     tasksContainer.appendChild(taskElement);
