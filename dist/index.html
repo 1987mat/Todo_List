@@ -50,22 +50,26 @@
   </div>
   <!-- HIDDEN TASK POPUP -->
   <div class='task-popup hidden'>
-    <div class="input-fields">
-      <label for="task-name-input">Name</label>
-      <input type="text" id="task-name-input" maxlength="10" name="task-name-input">
-      <label for="task-date-input">Due Date</label>
-      <input type="date" id="task-date-input">
-    </div>
-    <button class="save-task-btn">SAVE</button>
-    <button class="cancel-task-btn">CANCEL</button>
+    <span aria-hidden="true" class="close-popup-icon">&times;</span>
+    <form action="" class="task-form">
+        <label for="task-name-input">Name</label>
+        <input type="text" id="task-name-input" maxlength="15" name="task-name-input" required>
+        <label for="task-description">Description</label>
+        <textarea name="task-description" id="task-description" cols="30" rows="10"></textarea>
+        <label for="task-date-input">Due Date</label>
+        <input type="date" id="task-date-input" required>
+        <button type="submit" class="save-task-btn">SAVE</button>
+    </form>
   </div>
   <!-- TASK TEMPLATE -->
   <template id="task-template">
     <div class="task-div">
-      <input type="text" name="task-name">
-      <button class="edit-btn-confirm"><i class="fa fa-check-circle"></i></i></button> 
+      <input type="checkbox" maxlength="10" name="task-name-input">
+      <label for=""></label>
+      <p class="task-description-text"></p>
+      <p class="task-date-text"></p>
       <div class="util-div">
-        <input type="date" id="date-input" name="date-input" value="" readonly>
+        <button class="edit-task-btn"><i class="fa fa-pencil"></i></button>
         <button class="remove-task-btn"><i class="fa fa-trash"></i></button>
       </div>
     </div>

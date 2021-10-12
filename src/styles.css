@@ -141,40 +141,55 @@ h1 {
 
 .task-popup {
   position: relative;
-  bottom: 470px;
+  bottom: 530px;
   left: 500px;
-  background-color: #D3D3D3;
+  background-color: #F5F5F5;
   border: 1px solid black;
   box-shadow: 2px 2px 2px black;
-  width: 300px;
-  height: 300px;
-  display: block;
+  width: 380px;
+  height: 480px;
   border-radius: 5px;
   padding: 30px;
 }
 
-.input-fields {
+.task-form {
   display: flex;
   flex-direction: column;
+  position: relative;
+  bottom: 40px;
 }
 
-.input-fields input {
-  margin: 15px;
+.task-form input, textarea {
+  margin-bottom: 15px;
   padding: 5px;
 }
 
-.input-fields label {
-  font-weight: 800
+.task-form label {
+  font-weight: 800;
+  margin-bottom: 15px;
 }
 
-.task-popup button {
-  position: relative;
-  left: 22px;
-  width: 40%;
+.task-description-text, .task-date-text {
+  display: none;
+}
+
+.save-task-btn {
+  width: 100%;
   padding: 10px;
   margin-top: 15px;
   border-radius: 5px;
   font-weight: 700;
+}
+
+.close-popup-icon {
+  font-size: 2rem;
+  position: relative;
+  bottom: 30px;
+  left: 320px;
+}
+
+.close-popup-icon:hover {
+  cursor: pointer;
 }
 
 .hidden {
@@ -217,7 +232,7 @@ h1 {
   background-color: #DCDCDC;
 }
 
-.task-name{
+.task-name {
   padding: 2px;
   background-color: #F5F5F5;
   background: transparent;
@@ -229,38 +244,10 @@ h1 {
   background-color: #DCDCDC;
 }
 
-.edit-btn-confirm {
-  display: none;
-}
-
-.fa-check-circle {
-  font-size: 1rem;
-  color: green;
-}
-
-.fa-check-circle:hover {
-  cursor: pointer;
-}
-
-.remove-task-link {
-  text-decoration: none;
-  color: black;
-}
-
 .util-div {
   float: right;
   position: relative;
   top: -2px;
-}
-
-#task-input {
-  border: none;
-  border-bottom: 1px solid blue;
-  background-color: #F5F5F5;
-}
-
-#task-input:focus {
-  outline: none;
 }
 
 .task-list-name {
@@ -291,14 +278,12 @@ h1 {
 
 .delete-project-btn:hover, 
 .add-task-btn:hover, 
-.save-task-btn:hover, 
-.cancel-task-btn:hover {
+.save-task-btn:hover {
   cursor: pointer;
   background: #FFFFFF;
 }
 
-.remove-task-btn:hover,
-.edit-task-btn:hover {
+.remove-task-btn:hover, .edit-task-btn:hover {
   cursor: pointer;
 }
 

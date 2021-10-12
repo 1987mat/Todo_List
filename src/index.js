@@ -1,7 +1,7 @@
 import "./styles.css";
 
 // DOM elements
-const newProjectBtn = document.querySelector('#new-project-btn');
+const newProjectBtn = document.getElementById('new-project-btn');
 const popUp = document.querySelector('.add-project-popup');
 const addProjectBtn = document.querySelector('.add-btn');
 const cancelBtn = document.querySelector('.cancel-btn');
@@ -10,14 +10,15 @@ const newInput = document.querySelector('[data-new-input-list]');
 const wrapperDiv = document.querySelector('.wrapper');
 const previewContainer = document.querySelector('.todo-list-container');
 const projectTitlePreview = document.querySelector('.project-title-preview');
-const taskTemplate = document.querySelector('#task-template');
+const taskTemplate = document.getElementById('task-template');
 const tasksContainer = document.querySelector('[data-tasks-container]');
 const taskPopup = document.querySelector('.task-popup');
-const taskNameInput = document.querySelector('#task-name-input');
-const taskDateInput = document.querySelector('#task-date-input');
+const closeFormIcon = document.querySelector('.close-popup-icon');
+const taskForm = document.querySelector('.task-form');
+const taskNameInput = document.getElementById('task-name-input');
+const taskDescriptionInput = document.getElementById('task-description');
+const taskDateInput = document.getElementById('task-date-input');
 const addTaskBtnPopUp = document.querySelector('.add-task-btn');
-const saveTaskBtn = document.querySelector('.save-task-btn');
-const cancelTaskBtn = document.querySelector('.cancel-task-btn');
 const deleteProjectBtn = document.querySelector('.delete-project-btn');
 
 // Create Local Storage keys
@@ -43,12 +44,14 @@ document.addEventListener('DOMContentLoaded', function getProjectList() {
 newProjectBtn.addEventListener('click', function clickNewProjectBtn() {
   showPopUp();
   newProjectBtn.style.display = 'none';
+  previewContainer.style.pointerEvents = 'none';
 })
 
 cancelBtn.addEventListener('click', function cancelProjectBtn() {
   hidePopUp();
   newInput.value = '';
   newProjectBtn.style.display = 'block';
+  previewContainer.style.pointerEvents = '';
 })
 
 addProjectBtn.addEventListener('click', function addNewProject() {
@@ -70,29 +73,38 @@ addTaskBtnPopUp.addEventListener('click', function openTaskPopUp() {
   taskPopup.classList.remove('hidden');
   wrapperDiv.classList.add('inactive');
   taskNameInput.value = null;
+  taskDescriptionInput.value = null;
   taskDateInput.value = null;
 })
 
-saveTaskBtn.addEventListener('click', function getTaskInfo() {
+// Add new task to task container
+taskForm.addEventListener('submit', function getTaskInfo(e) {
+  e.preventDefault();
   let taskName = taskNameInput.value;
+  let taskDescription = taskDescriptionInput.value;
   let taskDate = taskDateInput.value;
-
-  if(taskName === null || taskName === '') return;
-
-  const task = CreateTask(taskName, taskDate);
+  let complete = false;
+  const task = CreateTask(taskName, taskDescription, taskDate, complete);
   taskNameInput.value = null;
+  taskDescriptionInput.value = null;
+  taskDateInput.value = null;
   taskPopup.classList.add('hidden');
   wrapperDiv.classList.remove('inactive');
   let selectedProject = projectList.find(item => item.id === selectedProjectID);
   selectedProject.tasks.push(task);
   saveAndRender();
+  console.log(task)
 })
 
-cancelTaskBtn.addEventListener('click', function cancelTaskButton() {
+closeFormIcon.addEventListener('click', function closeForm() {
+  taskNameInput.value = null;
+  taskDateInput.value = null;
+  taskDescriptionInput.value = null;
   taskPopup.classList.add('hidden');
   wrapperDiv.classList.remove('inactive');
 })
 
+// Get selected project's ID
 containerList.addEventListener('click', function selectProjectFromList(e) {
   if (e.target.tagName.toLowerCase() === 'li') {
     selectedProjectID = e.target.dataset.listID;
@@ -123,10 +135,12 @@ deleteProjectBtn.addEventListener('click', function deleteProjectFromList() {
 })
 
 tasksContainer.addEventListener('click', function(e) {
-  // Delete single task
-  if(e.target.className === 'fa fa-trash') {
+  e.preventDefault();
 
-    selectedTaskID = e.target.parentElement.parentElement.previousElementSibling.id;
+  // Delete single task
+  if(e.target.classList.contains('fa') && e.target.classList.contains('fa-trash')) {
+  
+    selectedTaskID = e.target.parentElement.parentElement.parentElement.firstElementChild.id;
     projectList.forEach(project => {
       if(project.id === selectedProjectID) {
 
@@ -138,7 +152,6 @@ tasksContainer.addEventListener('click', function(e) {
           cancelButtonColor: '#d33',
           confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
-
           if (result.isConfirmed) {
             project.tasks = project.tasks.filter(task => task.id !== selectedTaskID);
             saveAndRender(); 
@@ -146,41 +159,28 @@ tasksContainer.addEventListener('click', function(e) {
         })
       }
     })
-  }
 
-  if(e.target.name === 'task-name') {
-    
-    let editButtonConfirm;
+    // Show edit popup
+  } else if (e.target.classList.contains('fa') && e.target.classList.contains('fa-pencil')) {
+      taskPopup.classList.remove('hidden');
+      wrapperDiv.classList.add('inactive');
 
-    for(let i = 0; i < e.target.parentElement.childElementCount; i++) {
+      let parentEl = e.target.parentElement.parentElement.parentElement;
 
-      if(e.target.parentElement.children[i].className === 'edit-btn-confirm') {
-        editButtonConfirm = e.target.parentElement.children[i];
-
-        e.target.keyup = setTimeout(function() {
-          editButtonConfirm.style.display = 'inline';
-        }, 3000);
-      }
-    }
-
-    let oldTaskName = e.target.value;
-
-    editButtonConfirm.onclick = function() {
-      
-      // editButtonConfirm.style.display = 'none';
-      let selectedProject = projectList.find(item => item.id === selectedProjectID);
-      let newTaskName = e.target.value;
-      // Swap new task title with old on
-      selectedProject.tasks.forEach(item => {
-        if(item.name === oldTaskName) {
-          item.name = newTaskName;
-          saveAndRender();
+      for(let i = 0; i < parentEl.children.length; i++) {
+        
+        if(parentEl.children[i].tagName.toLowerCase() === 'label') {
+          taskNameInput.value = parentEl.children[i].innerText;
         }
-      })
-    }
+        if(parentEl.children[i].classList.contains('task-description-text')) {
+          taskDescriptionInput.value = parentEl.children[i].innerText;
+        }
+        if(parentEl.children[i].classList.contains('task-date-text')) {
+          taskDateInput.value = parentEl.children[i].innerText;
+        }
+      }
   }
 })
-
 
 // FUNCTIONS
 function CreateProject(name) {
@@ -191,11 +191,13 @@ function CreateProject(name) {
   }
 }
 
-function CreateTask(name, dueDate) {
+function CreateTask(name, description, dueDate, complete) {
   return {
     id: Date.now().toString(),
     name: name,
-    dueDate: dueDate
+    description: description,
+    dueDate: dueDate,
+    complete: complete
   }
 }
 
@@ -229,12 +231,16 @@ function renderList() {
 function renderTasks(selectedProject) {
   selectedProject.tasks.forEach(task => {
     const taskElement = document.importNode(taskTemplate.content, true);
-    const input = taskElement.querySelector('input');
-    input.id = task.id;
-    input.value = task.name;
-    input.class = 'task-name-text';
-    const dateInput = taskElement.querySelector('#date-input');
-    dateInput.value = task.dueDate;
+    const checkbox = taskElement.querySelector('input');
+    checkbox.id = task.id;
+    checkbox.class = 'task-name-text';
+    const label = taskElement.querySelector('label');
+    label.innerText = task.name;
+    label.htmlFor = task.id;
+    const descriptionText = taskElement.querySelector('.task-description-text');
+    descriptionText.innerText = task.description;
+    const date = taskElement.querySelector('.task-date-text')
+    date.innerText = task.dueDate;
     tasksContainer.appendChild(taskElement);
   })
 }
