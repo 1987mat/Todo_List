@@ -10,7 +10,6 @@ const newInput = document.querySelector('[data-new-input-list]');
 const wrapperDiv = document.querySelector('.wrapper');
 const previewContainer = document.querySelector('.todo-list-container');
 const projectTitlePreview = document.querySelector('.project-title-preview');
-// const taskTemplate = document.getElementById('task-template');
 const tasksContainer = document.querySelector('[data-tasks-container]');
 const taskPopup = document.querySelector('.new-task-popup');
 const closeFormIcon = document.querySelector('.close-popup-icon');
@@ -18,8 +17,16 @@ const taskForm = document.querySelector('.task-form');
 const taskNameInput = document.getElementById('task-name-input');
 const taskDescriptionInput = document.getElementById('task-description');
 const taskDateInput = document.getElementById('task-date-input');
-const addTaskBtnPopUp = document.querySelector('.add-task-btn');
+const addTaskPopupBtn = document.querySelector('.add-task-btn');
 const deleteProjectBtn = document.querySelector('.delete-project-btn');
+
+const editTaskPopup = document.querySelector('.edit-task-popup');
+const closeEditFormIcon = document.querySelector('.close-popup-icon-edit');
+const taskNameInputEdit = document.getElementById('task-name-input-edit');
+const taskDescriptionInputEdit = document.getElementById('task-description-edit');
+const taskDateInputEdit = document.getElementById('task-date-input-edit');
+const taskFormEdit = document.querySelector('.task-form-edit');
+
 
 // Create Local Storage keys
 const LOCAL_STORAGE_LIST_KEY = 'project.lists';
@@ -57,19 +64,19 @@ cancelBtn.addEventListener('click', function cancelProjectBtn() {
 addProjectBtn.addEventListener('click', function addNewProject() {
   let projectName = newInput.value;
   if(projectName == null || projectName === '') return;
-
   // Create the project object and push it to the project list array
   const project = CreateProject(projectName);
   newInput.value = null;
   projectList.push(project);
   newProjectBtn.style.display = 'block';
+  previewContainer.style.pointerEvents = '';
   hidePopUp();
   clearList(containerList);
   save();
   renderProjectList();
 })
 
-addTaskBtnPopUp.addEventListener('click', function openTaskPopUp() {
+addTaskPopupBtn.addEventListener('click', function openTaskPopUp() {
   taskPopup.classList.remove('hidden');
   wrapperDiv.classList.add('inactive');
   taskNameInput.value = null;
@@ -78,41 +85,49 @@ addTaskBtnPopUp.addEventListener('click', function openTaskPopUp() {
 })
 
 // Add new task to task container
-taskForm.addEventListener('submit', function getTaskInfo(e) {
+taskForm.addEventListener('submit', function addTask(e) {
   e.preventDefault();
-
   let selectedProject = projectList.find(item => item.id === selectedProjectID);
-
   let taskName = taskNameInput.value;
   let taskDescription = taskDescriptionInput.value;
   let taskDate = taskDateInput.value;
   let complete = false;
   const task = CreateTask(taskName, taskDescription, taskDate, complete);
-
-  // const taskInfoDiv = document.createElement('div');
-  // const title = document.createElement('p');
-  // const description = document.createElement('p');
-  // const date = document.createElement('p');
-  // const status = document.createElement('p');
-
-  // title.innerHTML = `Name: ${taskName}`;
-  // description.innerHTML = `Description: ${taskDescription}`;
-  // date.innerHTML = `Due Date: ${taskDate}`;
-  // status.innerHTML = `Completed: ${complete}`;
-
-  // taskInfoDiv.append(...[
-  //   title, description, date, status
-  // ]);
-
   taskNameInput.value = null;
   taskDescriptionInput.value = null;
   taskDateInput.value = null;
   taskPopup.classList.add('hidden');
   wrapperDiv.classList.remove('inactive');
-
   selectedProject.tasks.push(task);
   saveAndRender();
+})
 
+taskFormEdit.addEventListener('submit', function updateTask(e) {
+  e.preventDefault();
+  let selectedProject = projectList.find(item => item.id === selectedProjectID);
+  let updatedTaskName = taskNameInputEdit.value;
+  let updatedTaskDescription = taskDescriptionInputEdit.value;
+  let updatedTaskDate = taskDateInputEdit.value;
+  // let complete = false;
+  editTaskPopup.classList.add('hidden');
+  wrapperDiv.classList.remove('inactive');
+
+  let taskToEditID;
+
+  for(let i = 0; i < tasksContainer.children.length; i++) {
+    if(tasksContainer.children[i].classList.contains('editMode')) {
+      taskToEditID = tasksContainer.children[i].firstElementChild.id;
+    }
+  }
+
+  selectedProject.tasks.forEach(item => {
+    if(taskToEditID === item.id) {
+      item.name = updatedTaskName;
+      item.description = updatedTaskDescription;
+      item.dueDate = updatedTaskDate;
+    }
+  })
+  saveAndRender();   
 })
 
 closeFormIcon.addEventListener('click', function closeForm() {
@@ -120,6 +135,14 @@ closeFormIcon.addEventListener('click', function closeForm() {
   taskDateInput.value = null;
   taskDescriptionInput.value = null;
   taskPopup.classList.add('hidden');
+  wrapperDiv.classList.remove('inactive');
+})
+
+closeEditFormIcon.addEventListener('click', function closeEditForm() {
+  taskNameInput.value = null;
+  taskDateInput.value = null;
+  taskDescriptionInput.value = null;
+  editTaskPopup.classList.add('hidden');
   wrapperDiv.classList.remove('inactive');
 })
 
@@ -153,36 +176,7 @@ deleteProjectBtn.addEventListener('click', function deleteProjectFromList() {
   })
 })
 
-// tasksContainer.addEventListener('click', function(e) {
-
-//     // Edit task 
-//   } else if (e.target.classList.contains('fa') && e.target.classList.contains('fa-pencil')) {
-
-//     taskPopup.classList.remove('hidden');
-//     wrapperDiv.classList.add('inactive');
-
-//     // Select the task to edit
-//     let taskListItem = e.target.parentElement.parentElement.parentElement;
-//     taskListItem.classList.toggle('editMode');
-
-//     for(let i = 0; i < taskListItem.children.length; i++) {
-      
-//       if(taskListItem.children[i].tagName.toLowerCase() === 'label') {
-//         taskNameInput.value = taskListItem.children[i].innerText;
-//       }
-//       if(taskListItem.children[i].classList.contains('task-description-text')) {
-//         taskDescriptionInput.value = taskListItem.children[i].innerText;
-//       }
-//       if(taskListItem.children[i].classList.contains('task-date-text')) {
-//         taskDateInput.value = taskListItem.children[i].innerText;
-//       }
-//     }
- 
-//   }
-// })
-
 function taskEvents(taskListItem) {
-
   const editBtn = taskListItem.querySelector('button.edit');
   const removeBtn = taskListItem.querySelector('button.remove');
   editBtn.onclick = editTask;
@@ -190,11 +184,23 @@ function taskEvents(taskListItem) {
 }
 
 function editTask() {
-  taskPopup.classList.remove('hidden');
+  editTaskPopup.classList.remove('hidden');
   wrapperDiv.classList.add('inactive');
- 
-  this.parentElement.classList.toggle('editMode');
-  console.log(this.parentElement)
+  let listItem = this.parentNode;
+
+  for(let i = 0; i < listItem.children.length; i++) {
+
+    if(listItem.children[i].tagName.toLowerCase() === 'label') {
+      taskNameInputEdit.value = listItem.children[i].innerText;
+    }
+    if(listItem.children[i].classList.contains('description-info')) {
+      taskDescriptionInputEdit.value = listItem.children[i].innerText;
+    } 
+    if(listItem.children[i].classList.contains('date-info')) {
+      taskDateInputEdit.value = listItem.children[i].innerText;
+    }
+  }
+  listItem.classList.toggle('editMode');
 }
 
 function removeTask() {
@@ -218,7 +224,6 @@ function removeTask() {
       }
       let selectedProject = projectList.find(project => project.id === selectedProjectID);
       selectedProject.tasks = selectedProject.tasks.filter(task => task.id !== selectedTaskID);
-      console.log(selectedProject.tasks);
       saveAndRender(); 
     }
   })
@@ -283,12 +288,15 @@ function renderTasks(selectedProject) {
     label.htmlFor = task.id;
     const taskInfoDiv = document.createElement('div');
     const description = document.createElement('p');
+    description.classList.add('description-info');
     description.classList.add('hidden');
     description.innerText = task.description;
     const date = document.createElement('p');
+    date.classList.add('date-info');
     date.classList.add('hidden');
     date.innerText = task.dueDate;
     const status = document.createElement('p');
+    status.classList.add('status-info');
     status.classList.add('hidden');
     status.innerText = task.complete;
     const editButton = document.createElement('button');
@@ -320,7 +328,6 @@ function renderTasks(selectedProject) {
       taskInfoDiv.classList.toggle('hidden');
     }
     tasksContainer.appendChild(taskList);
-    taskList.classList.toggle('editMode');
     taskEvents(taskList); 
   })
 }

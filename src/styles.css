@@ -143,7 +143,7 @@ h1 {
   box-shadow: 5px 5px 5px black;
 }
 
-.new-task-popup {
+.new-task-popup, .edit-task-popup {
   position: relative;
   bottom: 530px;
   left: 500px;
@@ -156,19 +156,19 @@ h1 {
   padding: 30px;
 }
 
-.task-form {
+.task-form, .task-form-edit {
   display: flex;
   flex-direction: column;
   position: relative;
   bottom: 40px;
 }
 
-.task-form input, textarea {
+.task-form input, textarea, .task-form-edit input, textarea {
   margin-bottom: 15px;
   padding: 5px;
 }
 
-.task-form label {
+.task-form label, .task-form-edit label {
   font-weight: 800;
   margin-bottom: 15px;
 }
@@ -177,7 +177,7 @@ h1 {
   display: none;
 }
 
-.save-task-btn {
+.save-task-btn, .save-task-btn-edit {
   width: 100%;
   padding: 10px;
   margin-top: 15px;
@@ -185,14 +185,14 @@ h1 {
   font-weight: 700;
 }
 
-.close-popup-icon {
+.close-popup-icon, .close-popup-icon-edit {
   font-size: 2rem;
   position: relative;
   bottom: 30px;
   left: 320px;
 }
 
-.close-popup-icon:hover {
+.close-popup-icon:hover, .close-popup-icon-edit:hover {
   cursor: pointer;
 }
 
@@ -257,6 +257,7 @@ h1 {
   margin: 10px;
   padding: 10px;
   box-shadow: 2px 2px 2px black;
+  width: fit-content;
 }
 
 .delete-project-btn {
@@ -280,7 +281,7 @@ h1 {
 
 .delete-project-btn:hover, 
 .add-task-btn:hover, 
-.save-task-btn:hover {
+.save-task-btn:hover, .save-task-btn-edit:hover {
   cursor: pointer;
   background: #FFFFFF;
 }

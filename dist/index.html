@@ -55,25 +55,25 @@
         <label for="task-name-input">Name</label>
         <input type="text" id="task-name-input" maxlength="15" name="task-name-input" required>
         <label for="task-description">Description</label>
-        <textarea name="task-description" id="task-description" cols="30" rows="10" required></textarea>
+        <textarea name="task-description" id="task-description" cols="30" rows="10" maxlength="70" required></textarea>
         <label for="task-date-input">Due Date</label>
         <input type="date" id="task-date-input" required>
         <button type="submit" class="save-task-btn">SAVE</button>
     </form>
   </div>
-  <!-- TASK TEMPLATE -->
-  <!-- <template id="task-template">
-    <div class="task-div">
-      <input type="checkbox" maxlength="10" name="task-name-input">
-      <label for=""></label>
-      <p class="task-description-text"></p>
-      <p class="task-date-text"></p>
-      <div class="util-div">
-        <button class="edit"><i class="fa fa-pencil"></i></button>
-        <button class="remove"><i class="fa fa-trash"></i></button>
-      </div>
-    </div>
-  </template> -->
+  <!-- HIDDEN EDIT TASK POPUP -->
+  <div class='edit-task-popup hidden'>
+    <span aria-hidden="true" class="close-popup-icon-edit">&times;</span>
+    <form action="" class="task-form-edit">
+        <label for="task-name-input-edit">Name</label>
+        <input type="text" id="task-name-input-edit" maxlength="15" name="task-name-input-edit" required>
+        <label for="task-description-edit">Description</label>
+        <textarea name="task-description-edit" id="task-description-edit" cols="30" rows="10" maxlength="70" required></textarea>
+        <label for="task-date-input-edit">Due Date</label>
+        <input type="date" id="task-date-input-edit" required>
+        <button type="submit" class="save-task-btn-edit">SAVE</button>
+    </form>
+  </div>
 
   <script src="main.js"></script>
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
