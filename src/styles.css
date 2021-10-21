@@ -89,6 +89,10 @@ h1 {
   font-weight: 900;
 }
 
+.add-btn:hover, .cancel-btn:hover {
+  cursor: pointer;
+}
+
 .active-list {
   font-weight: bolder;
   background-color: #DCDCDC;
@@ -139,7 +143,7 @@ h1 {
   box-shadow: 5px 5px 5px black;
 }
 
-.task-popup {
+.new-task-popup {
   position: relative;
   bottom: 530px;
   left: 500px;
@@ -215,6 +219,13 @@ h1 {
   height: 30px;
 }
 
+.task-div:hover {
+  cursor: pointer;
+  border-radius: 5px;
+  position: relative;
+  background-color: #DCDCDC;
+}
+
 .task-div input {
   padding: 5px;
   border: none;
@@ -225,37 +236,27 @@ h1 {
   cursor: pointer;
 }
 
-.task-div:hover {
+.task-div label {
+  margin: 5px;
+}
+
+.task-div label:hover {
   cursor: pointer;
-  border-radius: 5px;
-  position: relative;
-  background-color: #DCDCDC;
 }
 
-.task-name {
-  padding: 2px;
-  background-color: #F5F5F5;
-  background: transparent;
-  border: none;
-}
-
-.task-name:hover {
-  cursor: pointer;
-  background-color: #DCDCDC;
-}
-
-.util-div {
+.task-div button {
   float: right;
-  position: relative;
-  top: -2px;
+  padding: 3px;
+  margin: -2px 2px;
 }
 
-.task-list-name {
-  display: inline;
-  list-style-type: none;
-  border: none;
-  background-color: #F5F5F5;
-  font-size: 1rem;
+.task-info-div {
+  background: #DCDCDC;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin: 10px;
+  padding: 10px;
+  box-shadow: 2px 2px 2px black;
 }
 
 .delete-project-btn {
@@ -265,6 +266,7 @@ h1 {
   border-bottom: 3px solid black;
   border-radius: 5px;
   font-size: 1rem;
+  font-weight: 900;
   padding: 2px;
   margin: 10px;
 }
@@ -283,7 +285,7 @@ h1 {
   background: #FFFFFF;
 }
 
-.remove-task-btn:hover, .edit-task-btn:hover {
+.remove:hover, .edit:hover {
   cursor: pointer;
 }
 
