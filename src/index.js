@@ -2,7 +2,7 @@ import "./styles.css";
 
 // DOM elements
 const newProjectBtn = document.getElementById('new-project-btn');
-const popUp = document.querySelector('.add-project-popup');
+const addProjectPopup = document.querySelector('.add-project-popup');
 const addProjectBtn = document.querySelector('.add-btn');
 const cancelBtn = document.querySelector('.cancel-btn');
 const containerList = document.querySelector('[data-lists]');
@@ -12,33 +12,35 @@ const previewContainer = document.querySelector('.todo-list-container');
 const projectTitlePreview = document.querySelector('.project-title-preview');
 const tasksContainer = document.querySelector('[data-tasks-container]');
 const taskPopup = document.querySelector('.new-task-popup');
+const editTaskPopup = document.querySelector('.edit-task-popup');
 const closeFormIcon = document.querySelector('.close-popup-icon');
+const closeEditFormIcon = document.querySelector('.close-popup-icon-edit');
 const taskForm = document.querySelector('.task-form');
+const taskFormEdit = document.querySelector('.task-form-edit');
 const taskNameInput = document.getElementById('task-name-input');
 const taskDescriptionInput = document.getElementById('task-description');
 const taskDateInput = document.getElementById('task-date-input');
-const addTaskPopupBtn = document.querySelector('.add-task-btn');
-const deleteProjectBtn = document.querySelector('.delete-project-btn');
-
-const editTaskPopup = document.querySelector('.edit-task-popup');
-const closeEditFormIcon = document.querySelector('.close-popup-icon-edit');
 const taskNameInputEdit = document.getElementById('task-name-input-edit');
 const taskDescriptionInputEdit = document.getElementById('task-description-edit');
 const taskDateInputEdit = document.getElementById('task-date-input-edit');
-const taskFormEdit = document.querySelector('.task-form-edit');
-
+const addTaskPopupBtn = document.querySelector('.add-task-btn');
+const deleteProjectBtn = document.querySelector('.delete-project-btn');
 
 // Create Local Storage keys
 const LOCAL_STORAGE_LIST_KEY = 'project.lists';
 const LOCAL_STORAGE_ID_KEY = 'project.selected.id';
+const LOCAL_STORAGE_COMPLETED_TASKS_KEY = 'tasks.completed';
 
 let projectList,
     selectedProjectID = localStorage.getItem(LOCAL_STORAGE_ID_KEY),
-    selectedTaskID;
+    selectedTaskID,
+    completedTasksArr = [];
 
 // EVENT LISTENERS
 document.addEventListener('DOMContentLoaded', function getProjectList() {
+  // Get project list from Local Storage
   projectList = JSON.parse(localStorage.getItem(LOCAL_STORAGE_LIST_KEY));
+  completedTasksArr = JSON.parse(localStorage.getItem(LOCAL_STORAGE_COMPLETED_TASKS_KEY));
 
   if(projectList !== null) {
     save();
@@ -87,11 +89,11 @@ addTaskPopupBtn.addEventListener('click', function openTaskPopUp() {
 // Add new task to task container
 taskForm.addEventListener('submit', function addTask(e) {
   e.preventDefault();
-  let selectedProject = projectList.find(item => item.id === selectedProjectID);
+  let selectedProject = getSelectedProject();
   let taskName = taskNameInput.value;
   let taskDescription = taskDescriptionInput.value;
   let taskDate = taskDateInput.value;
-  let complete = false;
+  let complete = 'no';
   const task = CreateTask(taskName, taskDescription, taskDate, complete);
   taskNameInput.value = null;
   taskDescriptionInput.value = null;
@@ -104,11 +106,10 @@ taskForm.addEventListener('submit', function addTask(e) {
 
 taskFormEdit.addEventListener('submit', function updateTask(e) {
   e.preventDefault();
-  let selectedProject = projectList.find(item => item.id === selectedProjectID);
+  let selectedProject = getSelectedProject();
   let updatedTaskName = taskNameInputEdit.value;
   let updatedTaskDescription = taskDescriptionInputEdit.value;
   let updatedTaskDate = taskDateInputEdit.value;
-  // let complete = false;
   editTaskPopup.classList.add('hidden');
   wrapperDiv.classList.remove('inactive');
 
@@ -150,7 +151,7 @@ closeEditFormIcon.addEventListener('click', function closeEditForm() {
 containerList.addEventListener('click', function selectProjectFromList(e) {
   if (e.target.tagName.toLowerCase() === 'li') {
     selectedProjectID = e.target.dataset.listID;
-    saveAndRender();
+    saveAndRender(); 
   } 
 })
 
@@ -175,6 +176,10 @@ deleteProjectBtn.addEventListener('click', function deleteProjectFromList() {
     }
   })
 })
+
+function getSelectedProject() {
+  return projectList.find(project => project.id === selectedProjectID);
+}
 
 function taskEvents(taskListItem) {
   const editBtn = taskListItem.querySelector('button.edit');
@@ -219,10 +224,9 @@ function removeTask() {
       for(let i = 0; i < parentDiv.length; i++) {
         if(i === 0) {
           selectedTaskID = parentDiv[i].id;
-          console.log(selectedTaskID)
         }
       }
-      let selectedProject = projectList.find(project => project.id === selectedProjectID);
+      let selectedProject = getSelectedProject();
       selectedProject.tasks = selectedProject.tasks.filter(task => task.id !== selectedTaskID);
       saveAndRender(); 
     }
@@ -276,8 +280,8 @@ function renderProjectList() {
 }
 
 function renderTasks(selectedProject) {
-  selectedProject.tasks.forEach(task => {
 
+  selectedProject.tasks.forEach(task => {
     const taskList = document.createElement('div');
     taskList.className = 'task-div';
     const checkbox = document.createElement('input');
@@ -311,30 +315,70 @@ function renderTasks(selectedProject) {
     ]);
 
     taskInfoDiv.innerHTML = `
-      <strong>Title :</strong> ${label.innerText} 
+      <span><b>Title :</b> ${label.innerText} </span>
       <br><br>
-      <strong>Description :</strong> ${description.innerText} 
+      <span><b>Description :</b> ${description.innerText} </span>
       <br><br>
-      <strong>Due Date :</strong> ${date.innerText} 
+      <span><b>Due Date :</b> ${date.innerText} </span>
       <br><br>
-      <strong>Completed :</strong> ${status.innerText}
+      <span class='task-status'><b>Completed :</b> <span> ${status.innerText} </span></span>
     `;
 
     taskInfoDiv.classList.add('hidden');
     taskInfoDiv.classList.add('task-info-div');
     taskList.appendChild(taskInfoDiv);
-
-    label.onclick = function showHiddenTaskInfo() {
-      taskInfoDiv.classList.toggle('hidden');
-    }
     tasksContainer.appendChild(taskList);
+    checkbox.onclick = checkCompletedTask;
     taskEvents(taskList); 
+  })
+}
+
+function checkCompletedTask() {
+
+  Swal.fire({
+    title: 'Is this task completed?',
+    icon: 'warning',
+    showDenyButton: true,
+    cancelButtonColor: '#d33',
+    confirmButtonColor: '#3085d6',
+    confirmButtonText: 'Yes',
+    denyButtonText: 'No'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire(
+        'Task moved to Local Storage!',
+      )
+      let parentDiv = this.parentElement.children;
+      for(let i = 0; i < parentDiv.length; i++) {
+        if(i === 0) {
+          selectedTaskID = parentDiv[i].id;
+        }
+      }
+      let selectedProject = getSelectedProject();
+      // Push completed task object and save it to LS
+      selectedProject.tasks.forEach(task => {
+        const completedTasksObj = {
+          'project name': selectedProject.name,
+          'task name': task.name,
+          'description': task.description,
+          'date': task.dueDate
+        }
+        completedTasksArr.push(completedTasksObj);
+        save();
+      })
+      // Remove completed task from the UI
+      selectedProject.tasks = selectedProject.tasks.filter(task => task.id !== selectedTaskID);
+      saveAndRender(); 
+
+    } else {
+      this.checked = false;
+    }
   })
 }
 
 function showPreview() {
   // If the ID of the selected project exists (data-attribute on li), find that element in the array
-  let selectedProject = projectList.find(element => element.id === selectedProjectID);
+  let selectedProject = getSelectedProject();
 
   // Hide or show the preview container on the main content
   if (selectedProjectID === null) {
@@ -351,6 +395,7 @@ function showPreview() {
 function save() {
   localStorage.setItem(LOCAL_STORAGE_LIST_KEY, JSON.stringify(projectList));
   localStorage.setItem(LOCAL_STORAGE_ID_KEY, selectedProjectID);
+  localStorage.setItem(LOCAL_STORAGE_COMPLETED_TASKS_KEY, JSON.stringify(completedTasksArr));
 }
 
 function saveAndRender() {
@@ -359,9 +404,9 @@ function saveAndRender() {
 }
 
 function showPopUp() {
-  popUp.classList.add('active');
+  addProjectPopup.classList.add('active');
 }
 
 function hidePopUp() {
-  popUp.classList.remove('active');
+  addProjectPopup.classList.remove('active');
 }

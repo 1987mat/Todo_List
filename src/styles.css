@@ -219,6 +219,14 @@ h1 {
   height: 30px;
 }
 
+.task-div:hover .task-info-div {
+  display: block;
+}
+
+.toggle-completed {
+  text-decoration: line-through;
+}
+
 .task-div:hover {
   cursor: pointer;
   border-radius: 5px;
@@ -251,6 +259,7 @@ h1 {
 }
 
 .task-info-div {
+  display: none;
   background: #DCDCDC;
   border: 1px solid black;
   border-radius: 5px;
@@ -258,6 +267,8 @@ h1 {
   padding: 10px;
   box-shadow: 2px 2px 2px black;
   width: fit-content;
+  position: relative;
+  left: 100px;
 }
 
 .delete-project-btn {
