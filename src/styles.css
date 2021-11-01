@@ -29,16 +29,16 @@
 }
 
 h1 {
-  padding: 10px;
+  padding: 0.3em;
   font-size: 3rem;
-  margin: 20px 20px;
+  margin: 0.3em 0.3em;
   text-align: center;
   color: #F8F8FF;
 }
 
 .project-sidebar-title {
-  margin-bottom: 20px;
-  padding: 10px;
+  margin-bottom: 1em;
+  padding: 0.5em;
 }
 
 #new-project-btn {
@@ -50,6 +50,7 @@ h1 {
   height: 4rem;
   width: 9rem;
   border-radius: 10px;
+  box-shadow: 1px 1px 1px black;
 }
 
 #new-project-btn:hover {
@@ -61,30 +62,29 @@ h1 {
   display: none;
   position: relative;
   left: 10%;
-  top: 30px;
-  height: 100px;
-  width: 250px;
-  padding: 20px;
+  top: 1.8rem;
+  height: 6.25em;
+  width: 15em;
+  padding: 1.25em;
 }
 
 #project-name-input {
   box-sizing: content-box;
   border-radius: 2px;
-  padding: 5px;
-  width: 170px;
-  height: 30px;
+  padding: 0.3em;
+  width: 10.65em;
+  height: 1.8em;
   font-size: 1rem;
 }
 
 .project-buttons {
   display: flex;
   flex-direction: row;
-  border-radius: 2px;
 }
 
 .add-btn, .cancel-btn {
-  width: 92px;
-  height: 35px;
+  width: 5.75em;
+  height: 2.2em;
   font-size: 1rem;
   font-weight: 900;
 }
@@ -106,14 +106,13 @@ h1 {
 
 .sidebar-projects-div {
   height: 80%;
-  margin-top: 15px;
-  margin-left: 15px;  
+  margin: 1em 1em;
 }
 
 .project-name {
   list-style-type: none;
   width: 90%;
-  padding: 10px;
+  padding: 0.6em;
 }
 
 .project-name:hover {
@@ -135,42 +134,42 @@ h1 {
   border: 1px solid black;
   border-radius: 5px;
   position: relative;
-  top: 20px;
-  left: 50px;
-  padding: 10px;
-  margin-bottom: 60px;
+  top: 1.25em;
+  left: 3em;
+  padding: 0.6em;
+  margin-bottom: 3.75em;
   width: 80%;
   box-shadow: 5px 5px 5px black;
 }
 
 .new-task-popup, .edit-task-popup {
   position: relative;
-  bottom: 530px;
-  left: 500px;
+  bottom: 33em;
+  left: 28em;
   background-color: #F5F5F5;
   border: 1px solid black;
   box-shadow: 2px 2px 2px black;
-  width: 380px;
-  height: 480px;
+  width: 24em;
+  height: 30em;
   border-radius: 5px;
-  padding: 30px;
+  padding: 1.8em;
 }
 
 .task-form, .task-form-edit {
   display: flex;
   flex-direction: column;
   position: relative;
-  bottom: 40px;
+  bottom: 2.5em;
 }
 
 .task-form input, textarea, .task-form-edit input, textarea {
-  margin-bottom: 15px;
-  padding: 5px;
+  margin-bottom: 1em;
+  padding: 0.3em;
 }
 
 .task-form label, .task-form-edit label {
   font-weight: 800;
-  margin-bottom: 15px;
+  margin-bottom: 0.8em;
 }
 
 .task-description-text, .task-date-text {
@@ -179,8 +178,8 @@ h1 {
 
 .save-task-btn, .save-task-btn-edit {
   width: 100%;
-  padding: 10px;
-  margin-top: 15px;
+  padding: 0.62em;
+  margin-top: 1.5em;
   border-radius: 5px;
   font-weight: 700;
 }
@@ -189,7 +188,7 @@ h1 {
   font-size: 2rem;
   position: relative;
   bottom: 30px;
-  left: 320px;
+  left: 330px;
 }
 
 .close-popup-icon:hover, .close-popup-icon-edit:hover {
@@ -201,7 +200,7 @@ h1 {
 }
 
 .container-buttons {
-  margin-top: 10px;
+  margin-top: 0.62em;
 }
 
 .input-task {
@@ -209,22 +208,18 @@ h1 {
 }
 
 .project-title-preview {
-  margin-bottom: 20px;
+  margin-bottom: 1.25em;
 }
 
 .task-div {
-  padding: 5px;
-  margin: 5px;
+  padding: 0.3em;
+  margin: 0.3em;
   width: 100%;
-  height: 30px;
+  height: 2em;
 }
 
 .task-div:hover .task-info-div {
   display: block;
-}
-
-.toggle-completed {
-  text-decoration: line-through;
 }
 
 .task-div:hover {
@@ -235,7 +230,7 @@ h1 {
 }
 
 .task-div input {
-  padding: 5px;
+  padding: 0.3em;
   border: none;
   background-color:inherit;
 }
@@ -245,7 +240,7 @@ h1 {
 }
 
 .task-div label {
-  margin: 5px;
+  margin: 0.3em;
 }
 
 .task-div label:hover {
@@ -254,7 +249,7 @@ h1 {
 
 .task-div button {
   float: right;
-  padding: 3px;
+  padding: 0.2em;
   margin: -2px 2px;
 }
 
@@ -263,31 +258,31 @@ h1 {
   background: #DCDCDC;
   border: 1px solid black;
   border-radius: 5px;
-  margin: 10px;
-  padding: 10px;
+  margin: 0.6em;
+  padding: 0.6em;
   box-shadow: 2px 2px 2px black;
   width: fit-content;
   position: relative;
-  left: 100px;
+  left: 6.25em;
 }
 
 .delete-project-btn {
   float: right;
-  height: 40px;
-  width: 150px;
+  height: 2.5em;
+  width: 9em;
   border-bottom: 3px solid black;
   border-radius: 5px;
   font-size: 1rem;
   font-weight: 900;
-  padding: 2px;
-  margin: 10px;
+  padding: 0.12em;
+  margin: 0.6em;
 }
 
 .add-task-btn {
-  padding: 2px;
-  height: 30px;
+  padding: 0.12em;
+  height: 2em;
   border-radius: 5px;
-  width: 100px;
+  width: 7em;
 }
 
 .delete-project-btn:hover, 
@@ -303,12 +298,12 @@ h1 {
 
 .fa-github {
   text-transform: none;
-  font-size: 25px;
+  font-size: 1.5rem;
   color: #F8F8FF;
 }
 
 .copyright-div {
-  margin: 5px 10px;
+  margin: 0.3em 0.6em;
   text-align: center;
 }
 
@@ -324,4 +319,124 @@ h1 {
 
 .active {
   display: block;
+}
+
+
+@media all and (max-width: 768px) {
+
+  #new-project-btn {
+    font-weight: 800;
+    font-size: 60%;
+    position: relative;
+    top: 1.6rem;
+    left: 20%;
+    height: 10%;
+    width: 70%;
+    border-radius: 10px;
+    box-shadow: 1px 1px 1px black;
+    padding: 0.5em;
+  }
+
+  h1 {
+    font-size: 1rem;
+    padding: 0.3em;
+    margin-top: 1.5em;
+  }
+
+  .project-sidebar-title {
+    font-size: 90%;
+  }
+
+  .project-name {
+    width: 90%;
+    font-size: 50%;
+  }
+
+  .add-project-popup {
+    height: 50%;
+    width: 10%;
+  }
+
+  #project-name-input {
+    box-sizing: content-box;
+    border-radius: 2px;
+    padding: 3px;
+    width: 7.8em;
+    height: 10%;
+    font-size: 50%;
+  }
+
+  .add-btn {
+    width: 5em;
+    height: 50%;
+    font-size: 70%;
+  }
+
+  .cancel-btn {
+    width: 5em;
+    height: 50%;
+    font-size: 70%;
+  }
+
+  .sidebar-projects-div {
+    height: 80%;
+    margin-right: 4em;
+  }
+
+  .content {
+    font-size: 50%;
+  }
+
+  .content button {
+    height: 40%;
+    width: 20%;
+    font-size: 50%;
+    padding: 0.5em;
+  }
+
+  .task-div {
+    margin: 1em;
+  }
+
+  .task-div label {
+    position: relative;
+    bottom: 2px;
+  }
+
+  .task-div:hover {
+    width: 98%;
+  }
+
+  .task-div button {
+    height: 4em;
+    width: 9em;
+    margin-right: 0.5em;
+  }
+
+  .new-task-popup, .edit-task-popup {
+    position: relative;
+    bottom: 30em;
+    left: 5em;
+    background-color: #F5F5F5;
+    border: 1px solid black;
+    box-shadow: 2px 2px 2px black;
+    width: 18em;
+    height: 26em;
+  }  
+
+  .delete-project-btn {
+    margin-top: 5.5em;
+  }
+
+  .footer-span {
+    font-size: 10%;
+  }
+
+  .fa-github {
+    font-size: 80%;
+  }
+
+  
+
+
 }
