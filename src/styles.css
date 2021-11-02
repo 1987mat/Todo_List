@@ -5,22 +5,21 @@
   font-family: 'Comfortaa', cursive;
 }
 
+/* GRID */
+
 .wrapper {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 0.5fr 1fr 1fr;
   grid-template-rows: 1fr 5fr 0.5fr;
   grid-template-areas: 
     "header header header header"
-    "sidebar content content content"
+    "sidebar sidebar content content"
     "footer footer footer footer";
   width: 100vw;
   height: 100vh;
 }
 
-.inactive {
-  pointer-events: none;
-  filter: blur(2px);
-}
+/* HEADER */
 
 .header {
   grid-area: header;
@@ -34,6 +33,14 @@ h1 {
   margin: 0.3em 0.3em;
   text-align: center;
   color: #F8F8FF;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+  border: 1px solid black;
+  grid-area: sidebar;
+  background-color: #F8F8FF;
 }
 
 .project-sidebar-title {
@@ -93,15 +100,11 @@ h1 {
   cursor: pointer;
 }
 
+/* SELECTED PROJECT LIST */
 .active-list {
   font-weight: bolder;
   background-color: #DCDCDC;
-}
-
-.sidebar {
-  border: 1px solid black;
-  grid-area: sidebar;
-  background-color: #F8F8FF;
+  border-radius: 5px;
 }
 
 .sidebar-projects-div {
@@ -120,6 +123,8 @@ h1 {
   background: #DCDCDC;
   border-radius: 5px;
 }
+
+/* CONTENT */
 
 .content {
   grid-area: content;
@@ -142,7 +147,8 @@ h1 {
   box-shadow: 5px 5px 5px black;
 }
 
-.new-task-popup, .edit-task-popup {
+.new-task-popup, 
+.edit-task-popup {
   position: relative;
   bottom: 33em;
   left: 28em;
@@ -155,28 +161,34 @@ h1 {
   padding: 1.8em;
 }
 
-.task-form, .task-form-edit {
+.task-form, 
+.task-form-edit {
   display: flex;
   flex-direction: column;
   position: relative;
   bottom: 2.5em;
 }
 
-.task-form input, textarea, .task-form-edit input, textarea {
+.task-form input, textarea, 
+.task-form-edit input, 
+textarea {
   margin-bottom: 1em;
   padding: 0.3em;
 }
 
-.task-form label, .task-form-edit label {
+.task-form label, 
+.task-form-edit label {
   font-weight: 800;
   margin-bottom: 0.8em;
 }
 
-.task-description-text, .task-date-text {
+.task-description-text, 
+.task-date-text {
   display: none;
 }
 
-.save-task-btn, .save-task-btn-edit {
+.save-task-btn, 
+.save-task-btn-edit {
   width: 100%;
   padding: 0.62em;
   margin-top: 1.5em;
@@ -184,14 +196,16 @@ h1 {
   font-weight: 700;
 }
 
-.close-popup-icon, .close-popup-icon-edit {
+.close-popup-icon, 
+.close-popup-icon-edit {
   font-size: 2rem;
   position: relative;
   bottom: 30px;
   left: 330px;
 }
 
-.close-popup-icon:hover, .close-popup-icon-edit:hover {
+.close-popup-icon:hover, 
+.close-popup-icon-edit:hover {
   cursor: pointer;
 }
 
@@ -269,12 +283,11 @@ h1 {
 .delete-project-btn {
   float: right;
   height: 2.5em;
-  width: 9em;
+  width: 12em;
   border-bottom: 3px solid black;
   border-radius: 5px;
   font-size: 1rem;
   font-weight: 900;
-  padding: 0.12em;
   margin: 0.6em;
 }
 
@@ -287,13 +300,34 @@ h1 {
 
 .delete-project-btn:hover, 
 .add-task-btn:hover, 
-.save-task-btn:hover, .save-task-btn-edit:hover {
+.save-task-btn:hover, 
+.save-task-btn-edit:hover {
   cursor: pointer;
   background: #FFFFFF;
 }
 
-.remove:hover, .edit:hover {
+.remove:hover, 
+.edit:hover {
   cursor: pointer;
+}
+
+/* BLURR BACKGROUND AND DISABLE BUTTONS */
+.inactive {
+  pointer-events: none;
+  filter: blur(2px);
+}
+
+/* FOOTER */
+
+.footer {
+  grid-area: footer;
+  border: 1px solid black;
+  background-color: #696969;
+}
+
+.copyright-div {
+  margin: 0.3em 0.6em;
+  text-align: center;
 }
 
 .fa-github {
@@ -302,26 +336,17 @@ h1 {
   color: #F8F8FF;
 }
 
-.copyright-div {
-  margin: 0.3em 0.6em;
-  text-align: center;
-}
-
 .footer-span {
   color: #F8F8FF;
-}
-
-.footer {
-  grid-area: footer;
-  border: 1px solid black;
-  background-color: #696969;
 }
 
 .active {
   display: block;
 }
 
+/* MEDIA QUERIES */
 
+/* TABLET */
 @media all and (max-width: 768px) {
 
   #new-project-btn {
@@ -330,11 +355,23 @@ h1 {
     position: relative;
     top: 1.6rem;
     left: 20%;
-    height: 10%;
-    width: 70%;
+    height: 20%;
+    width: 40%;
     border-radius: 10px;
     box-shadow: 1px 1px 1px black;
-    padding: 0.5em;
+  }
+
+  .active-list {
+    width: 100%;
+  }
+
+  .add-project-popup {
+    position: relative;
+    left: 10%;
+    top: 1em;
+    height: 6.25em;
+    width: 15em;
+    padding: 1.25em;
   }
 
   h1 {
@@ -413,16 +450,17 @@ h1 {
     margin-right: 0.5em;
   }
 
-  .new-task-popup, .edit-task-popup {
-    position: relative;
-    bottom: 30em;
-    left: 5em;
-    background-color: #F5F5F5;
-    border: 1px solid black;
-    box-shadow: 2px 2px 2px black;
-    width: 18em;
-    height: 26em;
+  .new-task-popup, 
+  .edit-task-popup {
+    bottom: 28em;
+    left: 15em;
   }  
+
+  .close-popup-icon, 
+  .close-popup-icon-edit {
+    bottom: 30px;
+    left: 230px;
+  }
 
   .delete-project-btn {
     margin-top: 5.5em;
@@ -435,8 +473,97 @@ h1 {
   .fa-github {
     font-size: 80%;
   }
+}
 
-  
+/* LARGE MOBILE */
+@media all and (max-width: 425px) {
 
+  #new-project-btn {
+    width: 60%;
+  }
+
+  .active-list {
+    width: 100%;
+  }
+
+  .new-task-popup, 
+  .edit-task-popup {
+    bottom: 28em;
+    left: 5em;
+  }  
+
+  .close-popup-icon, 
+  .close-popup-icon-edit {
+    font-size: 2rem;
+    position: relative;
+    bottom: 30px;
+    left: 235px;
+  }
+}
+
+/* MEDIUM MOBILE */
+@media all and (max-width: 375px) {
+
+  .active-list {
+    width: 150%;
+  }
+
+  .new-task-popup, 
+  .edit-task-popup {
+    bottom: 28em;
+    left: 3em;
+  }  
+
+  .task-div button {
+    height: 3.5em;
+    width: 8.5em;
+    margin-right: 0.2em;
+    font-size: 50%;
+    padding-bottom: 0.5em;
+  }
+
+}
+
+/* SMALL MOBILE */
+@media all and (max-width: 320px) {
+
+  .active-list {
+    width: 200%;
+  }
+
+  .todo-list-container {
+    top: 1.25em;
+    left: 1em;
+    padding: 0.6em;
+    margin-bottom: 3.75em;
+    width: 90%;
+  }
+
+  #new-project-btn {
+    width: 80%;
+  }
+
+  .new-task-popup, 
+  .edit-task-popup {
+    bottom: 28.5em;
+    left: 1.5em;
+    width: 80%;
+    height: 28em;
+  }  
+
+  .close-popup-icon, 
+  .close-popup-icon-edit {
+    bottom: 30px;
+    left: 200px;
+  }
+
+  .task-div button {
+    margin: -1px 1px;
+  }
+
+  .delete-project-btn {
+    margin-top: 9em;
+    font-size: 1px;
+  }
 
 }
