@@ -463,7 +463,7 @@ textarea {
   }
 
   .delete-project-btn {
-    margin-top: 5.5em;
+    margin-top: 4em;
   }
 
   .footer-span {
@@ -499,6 +499,10 @@ textarea {
     bottom: 30px;
     left: 285px;
   }
+
+  .delete-project-btn {
+    margin-top: 6em;
+  }
 }
 
 /* MEDIUM MOBILE */
@@ -530,6 +534,9 @@ textarea {
     padding-bottom: 0.5em;
   }
 
+  .delete-project-btn {
+    margin-top: 9em;
+  }
 }
 
 /* SMALL MOBILE */
@@ -568,10 +575,4 @@ textarea {
   .task-div button {
     margin: -1px 1px;
   }
-
-  .delete-project-btn {
-    margin-top: 9em;
-    font-size: 1px;
-  }
-
 }

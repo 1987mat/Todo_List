@@ -1,6 +1,6 @@
 import "./styles.css";
 
-// DOM elements
+// DOM ELEMENTS
 const newProjectBtn = document.getElementById('new-project-btn');
 const addProjectPopup = document.querySelector('.add-project-popup');
 const addProjectBtn = document.querySelector('.add-btn');
@@ -26,7 +26,7 @@ const taskDateInputEdit = document.getElementById('task-date-input-edit');
 const addTaskPopupBtn = document.querySelector('.add-task-btn');
 const deleteProjectBtn = document.querySelector('.delete-project-btn');
 
-// Create Local Storage keys
+// LOCAL STORAGE KEYS
 const LOCAL_STORAGE_LIST_KEY = 'project.lists';
 const LOCAL_STORAGE_ID_KEY = 'project.selected.id';
 const LOCAL_STORAGE_COMPLETED_TASKS_KEY = 'tasks.completed';
@@ -38,7 +38,7 @@ let projectList,
 
 // EVENT LISTENERS
 document.addEventListener('DOMContentLoaded', function getProjectList() {
-  // Get project list from Local Storage
+  // Get projects and completed tasks from Local Storage
   projectList = JSON.parse(localStorage.getItem(LOCAL_STORAGE_LIST_KEY));
   completedTasksArr = JSON.parse(localStorage.getItem(LOCAL_STORAGE_COMPLETED_TASKS_KEY));
 
@@ -86,7 +86,7 @@ addTaskPopupBtn.addEventListener('click', function openTaskPopUp() {
   taskDateInput.value = null;
 })
 
-// Add new task to task container
+// ADD TASK TO UI
 taskForm.addEventListener('submit', function addTask(e) {
   e.preventDefault();
   let selectedProject = getSelectedProject();
@@ -147,7 +147,7 @@ closeEditFormIcon.addEventListener('click', function closeEditForm() {
   wrapperDiv.classList.remove('inactive');
 })
 
-// Get selected project's ID
+// GET SELECTED PROJECT'S ID
 containerList.addEventListener('click', function selectProjectFromList(e) {
   if (e.target.tagName.toLowerCase() === 'li') {
     selectedProjectID = e.target.dataset.listID;
