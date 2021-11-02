@@ -459,7 +459,7 @@ textarea {
   .close-popup-icon, 
   .close-popup-icon-edit {
     bottom: 30px;
-    left: 230px;
+    left: 330px;
   }
 
   .delete-project-btn {
@@ -488,16 +488,16 @@ textarea {
 
   .new-task-popup, 
   .edit-task-popup {
-    bottom: 28em;
-    left: 5em;
+    bottom: 28.5em;
+    left: 1.8em;
+    width: 80%;
+    height: 28em;
   }  
 
   .close-popup-icon, 
   .close-popup-icon-edit {
-    font-size: 2rem;
-    position: relative;
     bottom: 30px;
-    left: 235px;
+    left: 285px;
   }
 }
 
@@ -510,9 +510,17 @@ textarea {
 
   .new-task-popup, 
   .edit-task-popup {
-    bottom: 28em;
-    left: 3em;
+    bottom: 28.5em;
+    left: 1.8em;
+    width: 80%;
+    height: 28em;
   }  
+
+  .close-popup-icon, 
+  .close-popup-icon-edit {
+    bottom: 30px;
+    left: 245px;
+  }
 
   .task-div button {
     height: 3.5em;
@@ -546,7 +554,7 @@ textarea {
   .new-task-popup, 
   .edit-task-popup {
     bottom: 28.5em;
-    left: 1.5em;
+    left: 1.8em;
     width: 80%;
     height: 28em;
   }  
